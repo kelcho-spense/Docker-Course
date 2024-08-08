@@ -1,0 +1,130 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2024-08-08T17:32:01.1676896"><title>➡️ A Guide to Dockerizing PostgreSQL | Docker Guide</title><script type="application/json" id="virtual-toc-data">[{"id":"chapter-1-introduction","level":0,"title":"Chapter 1: Introduction","anchor":"#chapter-1-introduction"},{"id":"chapter-2-setting-up-docker","level":0,"title":"Chapter 2: Setting Up Docker","anchor":"#chapter-2-setting-up-docker"},{"id":"chapter-3-dockerizing-postgresql","level":0,"title":"Chapter 3: Dockerizing PostgreSQL","anchor":"#chapter-3-dockerizing-postgresql"},{"id":"chapter-4-connecting-to-postgresql","level":0,"title":"Chapter 4: Connecting to PostgreSQL","anchor":"#chapter-4-connecting-to-postgresql"},{"id":"chapter-5-crud-operations","level":0,"title":"Chapter 5: CRUD Operations","anchor":"#chapter-5-crud-operations"},{"id":"chapter-6-accessing-postgresql-from-an-application","level":0,"title":"Chapter 6: Accessing PostgreSQL from an Application","anchor":"#chapter-6-accessing-postgresql-from-an-application"},{"id":"chapter-7-cleaning-up","level":0,"title":"Chapter 7: Cleaning Up","anchor":"#chapter-7-cleaning-up"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.10.0-b408/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="➡️ A Guide to Dockerizing PostgreSQL | Docker Guide"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Docker Guide Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/dockerizing-postgresql.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="➡️ A Guide to Dockerizing PostgreSQL | Docker Guide"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/dockerizing-postgresql.html#webpage",
+    "url": "writerside-documentation/dockerizing-postgresql.html",
+    "name": "➡️ A Guide to Dockerizing PostgreSQL | Docker Guide",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Docker Guide Help"
+}</script><!-- End Schema.org --></head><body data-id="Dockerizing-PostgreSQL" data-main-title="➡️ A Guide to Dockerizing PostgreSQL" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs=""><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Docker Guide  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Dockerizing-PostgreSQL" id="Dockerizing-PostgreSQL.md">➡️ A Guide to Dockerizing PostgreSQL</h1><p id="-d8p4js_2">#➡️ A Guide to Dockerizing PostgreSQL</p><section class="chapter"><h2 id="chapter-1-introduction" data-toc="chapter-1-introduction">Chapter 1: Introduction</h2><p id="-d8p4js_10">This guide will walk you through the steps of Dockerizing PostgreSQL, setting up a user with specific credentials, persisting data using Docker volumes, and performing basic CRUD (Create, Read, Update, Delete) operations. We will cover everything from pulling the PostgreSQL image to running queries.</p></section><section class="chapter"><h2 id="chapter-2-setting-up-docker" data-toc="chapter-2-setting-up-docker">Chapter 2: Setting Up Docker</h2><section class="chapter"><h3 id="2-1-installing-docker-on-windows" data-toc="2-1-installing-docker-on-windows">2.1 Installing Docker on Windows</h3><ol class="list _decimal" id="-d8p4js_12" type="1"><li class="list__item" id="-d8p4js_13"><p id="-d8p4js_17">Download Docker Desktop from the <a href="https://www.docker.com/products/docker-desktop" id="-d8p4js_18" data-external="true" rel="noopener noreferrer">Docker website</a>.</p></li><li class="list__item" id="-d8p4js_14"><p id="-d8p4js_19">Run the installer and follow the instructions.</p></li><li class="list__item" id="-d8p4js_15"><p id="-d8p4js_20">After installation, start Docker Desktop.</p></li><li class="list__item" id="-d8p4js_16"><p id="-d8p4js_21">Verify the installation:</p><div class="code-block" data-lang="bash">
+docker --version
+</div></li></ol></section></section><section class="chapter"><h2 id="chapter-3-dockerizing-postgresql" data-toc="chapter-3-dockerizing-postgresql">Chapter 3: Dockerizing PostgreSQL</h2><section class="chapter"><h3 id="3-1-pulling-the-postgresql-image" data-toc="3-1-pulling-the-postgresql-image">3.1 Pulling the PostgreSQL Image</h3><ul class="list _bullet" id="-d8p4js_26"><li class="list__item" id="-d8p4js_27"><p id="-d8p4js_28">Open a command prompt and run the following command to pull the official PostgreSQL image:</p><div class="code-block" data-lang="bash">
+docker pull postgres
+</div></li></ul></section><section class="chapter"><h3 id="3-2-creating-a-docker-volume" data-toc="3-2-creating-a-docker-volume">3.2 Creating a Docker Volume</h3><ul class="list _bullet" id="-d8p4js_30"><li class="list__item" id="-d8p4js_31"><p id="-d8p4js_32">Create a volume to persist PostgreSQL data:</p><div class="code-block" data-lang="bash">
+docker volume create postgres-data
+</div></li></ul></section><section class="chapter"><h3 id="3-3-running-postgresql-container-with-authentication-and-persistent-storage" data-toc="3-3-running-postgresql-container-with-authentication-and-persistent-storage">3.3 Running PostgreSQL Container with Authentication and Persistent Storage</h3><ul class="list _bullet" id="-d8p4js_34"><li class="list__item" id="-d8p4js_35"><p id="-d8p4js_37">Run the PostgreSQL container with environment variables to set the username and password, and use the volume for data persistence:</p><div class="code-block" data-lang="bash">
+  docker run --name postgres_container -d -p 5432:5432 -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=pass -v postgres-data:/var/lib/postgresql/data postgres
+</div></li><li class="list__item" id="-d8p4js_36"><p id="-d8p4js_39">Verify the container is running:</p><div class="code-block" data-lang="bash">
+docker ps
+</div></li></ul></section></section><section class="chapter"><h2 id="chapter-4-connecting-to-postgresql" data-toc="chapter-4-connecting-to-postgresql">Chapter 4: Connecting to PostgreSQL</h2><section class="chapter"><h3 id="4-1-using-psql-shell" data-toc="4-1-using-psql-shell">4.1 Using psql Shell</h3><p id="-d8p4js_42">You have two options to connect to the PostgreSQL shell:</p><section class="chapter"><h4 id="option-1-direct-command" data-toc="option-1-direct-command">Option 1: Direct Command</h4><ul class="list _bullet" id="-d8p4js_45"><li class="list__item" id="-d8p4js_46"><p id="-d8p4js_47">Start the PostgreSQL shell directly:</p><div class="code-block" data-lang="bash">
+  docker exec -it postgres_container psql -U admin
+</div></li></ul></section><section class="chapter"><h4 id="option-2-entering-the-container-first" data-toc="option-2-entering-the-container-first">Option 2: Entering the Container First</h4><ol class="list _decimal" id="-d8p4js_49" type="1"><li class="list__item" id="-d8p4js_51"><p id="-d8p4js_56">Start a bash shell inside the running PostgreSQL container:</p><div class="code-block" data-lang="bash">
+docker exec -it postgres_container /bin/bash
+</div></li><li class="list__item" id="-d8p4js_52"><p id="-d8p4js_58">Once inside the container, start the PostgreSQL shell:</p><div class="code-block" data-lang="bash">
+psql -U admin
+</div></li><li class="list__item" id="-d8p4js_53"><p id="-d8p4js_60">You should now be in the PostgreSQL shell:</p><div class="code-block" data-lang="bash">
+ admin=#
+</div></li><li class="list__item" id="-d8p4js_54"><p id="-d8p4js_62">In the PostgreSQL shell (psql), you can list all databases using the following command:</p><ul class="list _bullet" id="-d8p4js_63"><li class="list__item" id="-d8p4js_67"><p>List All Databases</p></li></ul><div class="code-block" data-lang="bash">
+ \l
+</div><ul class="list _bullet" id="-d8p4js_65"><li class="list__item" id="-d8p4js_68"><p>or</p></li></ul><div class="code-block" data-lang="bash">
+ \list
+</div></li><li class="list__item" id="-d8p4js_55"><p id="-d8p4js_69">Additional Useful Commands</p></li></ol><ul class="list _bullet" id="-d8p4js_50"><li class="list__item" id="-d8p4js_70"><p id="-d8p4js_74">List all tables in the current database:</p><div class="code-block" data-lang="bash">
+ \dt
+</div></li><li class="list__item" id="-d8p4js_71"><p id="-d8p4js_76">List all schemas in the current database:</p><div class="code-block" data-lang="bash">
+\dn
+</div></li><li class="list__item" id="-d8p4js_72"><p id="-d8p4js_78">List all users:</p><div class="code-block" data-lang="bash">
+\du
+</div></li><li class="list__item" id="-d8p4js_73"><p id="-d8p4js_80">List all indexes:</p><div class="code-block" data-lang="bash">
+\di
+</div></li></ul></section></section></section><section class="chapter"><h2 id="chapter-5-crud-operations" data-toc="chapter-5-crud-operations">Chapter 5: CRUD Operations</h2><section class="chapter"><h3 id="5-1-creating-a-database-and-table" data-toc="5-1-creating-a-database-and-table">5.1 Creating a Database and Table</h3><ol class="list _decimal" id="-d8p4js_87" type="1"><li class="list__item" id="-d8p4js_88"><p id="-d8p4js_91">Create a new database called <code class="code" id="-d8p4js_93">mydatabase</code>:</p><div class="code-block" data-lang="sql">
+CREATE DATABASE mydatabase;
+</div></li><li class="list__item" id="-d8p4js_89"><p id="-d8p4js_94">Connect to the new database:</p><div class="code-block" data-lang="sql">
+\c mydatabase
+</div></li><li class="list__item" id="-d8p4js_90"><p id="-d8p4js_96">Create a new table called <code class="code" id="-d8p4js_98">mytable</code>:</p><div class="code-block" data-lang="sql">
+CREATE TABLE mytable (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    age INT,
+    occupation VARCHAR(100)
+);
+</div></li></ol></section><section class="chapter"><h3 id="5-2-create-insert-records" data-toc="5-2-create-insert-records">5.2 Create (Insert) Records</h3><ol class="list _decimal" id="-d8p4js_99" type="1"><li class="list__item" id="-d8p4js_100"><p id="-d8p4js_102">Insert a single record into <code class="code" id="-d8p4js_104">mytable</code>:</p><div class="code-block" data-lang="sql">
+INSERT INTO mytable (name, age, occupation) VALUES ('John Doe', 30, 'Engineer');
+</div></li><li class="list__item" id="-d8p4js_101"><p id="-d8p4js_105">Insert multiple records:</p><div class="code-block" data-lang="sql">
+INSERT INTO mytable (name, age, occupation) VALUES 
+('Jane Doe', 25, 'Teacher'),
+('Steve Smith', 40, 'Chef');
+</div></li></ol></section><section class="chapter"><h3 id="5-3-read-query-records" data-toc="5-3-read-query-records">5.3 Read (Query) Records</h3><ol class="list _decimal" id="-d8p4js_107" type="1"><li class="list__item" id="-d8p4js_108"><p id="-d8p4js_111">Select one record:</p><div class="code-block" data-lang="sql">
+SELECT * FROM mytable WHERE name = 'John Doe';
+</div></li><li class="list__item" id="-d8p4js_109"><p id="-d8p4js_113">Select all records:</p><div class="code-block" data-lang="sql">
+SELECT * FROM mytable;
+</div></li><li class="list__item" id="-d8p4js_110"><p id="-d8p4js_115">Select records with a condition:</p><div class="code-block" data-lang="sql">
+SELECT * FROM mytable WHERE age &gt; 30;
+</div></li></ol></section><section class="chapter"><h3 id="5-4-update-records" data-toc="5-4-update-records">5.4 Update Records</h3><ol class="list _decimal" id="-d8p4js_117" type="1"><li class="list__item" id="-d8p4js_118"><p id="-d8p4js_120">Update a single record:</p><div class="code-block" data-lang="sql">
+UPDATE mytable SET age = 31 WHERE name = 'John Doe';
+</div></li><li class="list__item" id="-d8p4js_119"><p id="-d8p4js_122">Update multiple records:</p><div class="code-block" data-lang="sql">
+UPDATE mytable SET occupation = 'Head Chef' WHERE occupation = 'Chef';
+</div></li></ol></section><section class="chapter"><h3 id="5-5-delete-records" data-toc="5-5-delete-records">5.5 Delete Records</h3><ol class="list _decimal" id="-d8p4js_124" type="1"><li class="list__item" id="-d8p4js_125"><p id="-d8p4js_127">Delete a single record:</p><div class="code-block" data-lang="sql">
+DELETE FROM mytable WHERE name = 'John Doe';
+</div></li><li class="list__item" id="-d8p4js_126"><p id="-d8p4js_129">Delete multiple records:</p><div class="code-block" data-lang="sql">
+DELETE FROM mytable WHERE age &lt; 30;
+</div></li></ol></section></section><section class="chapter"><h2 id="chapter-6-accessing-postgresql-from-an-application" data-toc="chapter-6-accessing-postgresql-from-an-application">Chapter 6: Accessing PostgreSQL from an Application</h2><section class="chapter"><h3 id="6-1-using-postgresql-with-node-js" data-toc="6-1-using-postgresql-with-node-js">6.1 Using PostgreSQL with Node.js</h3><ol class="list _decimal" id="-d8p4js_132" type="1"><li class="list__item" id="-d8p4js_133"><p id="-d8p4js_139">Install Node.js from the <a href="https://nodejs.org/" id="-d8p4js_140" data-external="true" rel="noopener noreferrer">official website</a>.</p></li><li class="list__item" id="-d8p4js_134"><p id="-d8p4js_141">Create a new project directory and navigate into it:</p><div class="code-block" data-lang="bash">
+mkdir my-postgres-app
+cd my-postgres-app
+</div></li><li class="list__item" id="-d8p4js_135"><p id="-d8p4js_143">Initialize a new Node.js project:</p><div class="code-block" data-lang="bash">
+npm init -y
+</div></li><li class="list__item" id="-d8p4js_136"><p id="-d8p4js_145">Install the <code class="code" id="-d8p4js_147">pg</code> package:</p><div class="code-block" data-lang="bash">
+npm install pg
+</div></li><li class="list__item" id="-d8p4js_137"><p id="-d8p4js_148">Create an <code class="code" id="-d8p4js_150">index.js</code> file and add the following code:</p><div class="code-block" data-lang="javascript">
+const { Client } = require('pg');
+
+async function main() {
+  const client = new Client({
+    user: 'admin',
+    host: 'localhost',
+    database: 'mydatabase',
+    password: 'pass',
+    port: 5432,
+  });
+
+  await client.connect();
+
+  try {
+    // Insert a record
+    const insertResult = await client.query(&quot;INSERT INTO mytable (name, age, occupation) VALUES ('Alice', 28, 'Designer') RETURNING id&quot;);
+    console.log('Inserted record ID:', insertResult.rows[0].id);
+
+    // Select a record
+    const selectResult = await client.query(&quot;SELECT * FROM mytable WHERE name = 'Alice'&quot;);
+    console.log('Selected record:', selectResult.rows[0]);
+
+    // Update a record
+    const updateResult = await client.query(&quot;UPDATE mytable SET age = 29 WHERE name = 'Alice'&quot;);
+    console.log('Updated record count:', updateResult.rowCount);
+
+    // Delete a record
+    const deleteResult = await client.query(&quot;DELETE FROM mytable WHERE name = 'Alice'&quot;);
+    console.log('Deleted record count:', deleteResult.rowCount);
+  } finally {
+    await client.end();
+  }
+}
+
+main().catch(console.error);
+</div></li><li class="list__item" id="-d8p4js_138"><p id="-d8p4js_151">Run the application:</p><div class="code-block" data-lang="bash">
+node index.js
+</div></li></ol></section></section><section class="chapter"><h2 id="chapter-7-cleaning-up" data-toc="chapter-7-cleaning-up">Chapter 7: Cleaning Up</h2><section class="chapter"><h3 id="7-1-stopping-and-removing-the-postgresql-container" data-toc="7-1-stopping-and-removing-the-postgresql-container">7.1 Stopping and Removing the PostgreSQL Container</h3><ul class="list _bullet" id="-d8p4js_156"><li class="list__item" id="-d8p4js_157"><p id="-d8p4js_159">Stop the container:</p><div class="code-block" data-lang="bash">
+docker stop postgres_container
+</div></li><li class="list__item" id="-d8p4js_158"><p id="-d8p4js_161">Remove the container:</p><div class="code-block" data-lang="bash">
+docker rm postgres_container
+</div></li></ul></section><section class="chapter"><h3 id="7-2-removing-the-postgresql-image" data-toc="7-2-removing-the-postgresql-image">7.2 Removing the PostgreSQL Image</h3><ul class="list _bullet" id="-d8p4js_163"><li class="list__item" id="-d8p4js_164"><p id="-d8p4js_165">Remove the PostgreSQL image:</p><div class="code-block" data-lang="bash">
+docker rmi postgres
+</div></li></ul></section><section class="chapter"><h3 id="7-3-removing-the-docker-volume" data-toc="7-3-removing-the-docker-volume">7.3 Removing the Docker Volume</h3><ul class="list _bullet" id="-d8p4js_167"><li class="list__item" id="-d8p4js_169"><p id="-d8p4js_170">Remove the Docker volume:</p><div class="code-block" data-lang="bash">
+docker volume rm postgres-data
+</div></li></ul></section></section><div class="last-modified">Last modified: 08 August 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="dockerizing-mongodb.html" class="navigation-links__prev">➡️ A Guide to Dockerizing MongoDB</a><a href="dockerizing-mysql.html" class="navigation-links__next">➡️ A Guide to Dockerizing MySQL</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.10.0-b408/app.js"></script></body></html>

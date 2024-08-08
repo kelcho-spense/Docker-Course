@@ -1,0 +1,145 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2024-08-08T17:32:01.1697216"><title>➡️ Getting started with docker | Docker Guide</title><script type="application/json" id="virtual-toc-data">[{"id":"chapter-1-introduction-to-docker","level":0,"title":"Chapter 1: Introduction to Docker","anchor":"#chapter-1-introduction-to-docker"},{"id":"chapter-2-installing-docker-on-windows","level":0,"title":"Chapter 2: Installing Docker on Windows","anchor":"#chapter-2-installing-docker-on-windows"},{"id":"chapter-3-docker-basics","level":0,"title":"Chapter 3: Docker Basics","anchor":"#chapter-3-docker-basics"},{"id":"chapter-4-working-with-docker-images","level":0,"title":"Chapter 4: Working with Docker Images","anchor":"#chapter-4-working-with-docker-images"},{"id":"chapter-5-docker-containers","level":0,"title":"Chapter 5: Docker Containers","anchor":"#chapter-5-docker-containers"},{"id":"chapter-6-dockerfile","level":0,"title":"Chapter 6: Dockerfile","anchor":"#chapter-6-dockerfile"},{"id":"chapter-7-docker-volumes","level":0,"title":"Chapter 7: Docker Volumes","anchor":"#chapter-7-docker-volumes"},{"id":"chapter-8-docker-compose","level":0,"title":"Chapter 8: Docker Compose","anchor":"#chapter-8-docker-compose"},{"id":"chapter-9-docker-networking","level":0,"title":"Chapter 9: Docker Networking","anchor":"#chapter-9-docker-networking"},{"id":"chapter-10-docker-swarm","level":0,"title":"Chapter 10: Docker Swarm","anchor":"#chapter-10-docker-swarm"},{"id":"chapter-11-docker-best-practices","level":0,"title":"Chapter 11: Docker Best Practices","anchor":"#chapter-11-docker-best-practices"},{"id":"chapter-12-advanced-topics","level":0,"title":"Chapter 12: Advanced Topics","anchor":"#chapter-12-advanced-topics"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.10.0-b408/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="➡️ Getting started with docker | Docker Guide"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Docker Guide Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/getting-started-with-docker.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="➡️ Getting started with docker | Docker Guide"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/getting-started-with-docker.html#webpage",
+    "url": "writerside-documentation/getting-started-with-docker.html",
+    "name": "➡️ Getting started with docker | Docker Guide",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Docker Guide Help"
+}</script><!-- End Schema.org --></head><body data-id="Getting-started-with-docker" data-main-title="➡️ Getting started with docker" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs=""><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Docker Guide  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Getting-started-with-docker" id="Getting-started-with-docker.md">➡️ Getting started with docker</h1><section class="chapter"><h2 id="chapter-1-introduction-to-docker" data-toc="chapter-1-introduction-to-docker">Chapter 1: Introduction to Docker</h2><section class="chapter"><h3 id="1-1-what-is-docker" data-toc="1-1-what-is-docker">1.1 What is Docker?</h3><p id="-t3wyr4_17">Docker is a platform that enables developers to package, deploy, and run applications in containers. Containers include everything needed to run the application, making it portable and consistent across different environments.</p></section><section class="chapter"><h3 id="1-2-why-use-docker" data-toc="1-2-why-use-docker">1.2 Why Use Docker?</h3><ul class="list _bullet" id="-t3wyr4_18"><li class="list__item" id="-t3wyr4_19"><p>Consistency across development, testing, and production environments</p></li><li class="list__item" id="-t3wyr4_20"><p>Isolation and security</p></li><li class="list__item" id="-t3wyr4_21"><p>Simplified dependency management</p></li><li class="list__item" id="-t3wyr4_22"><p>Efficient resource utilization</p></li></ul></section></section><section class="chapter"><h2 id="chapter-2-installing-docker-on-windows" data-toc="chapter-2-installing-docker-on-windows">Chapter 2: Installing Docker on Windows</h2><section class="chapter"><h3 id="2-1-docker-installation" data-toc="2-1-docker-installation">2.1 Docker Installation</h3><ol class="list _decimal" id="-t3wyr4_24" type="1"><li class="list__item" id="-t3wyr4_25"><p id="-t3wyr4_29">Download Docker Desktop from the <a href="https://www.docker.com/products/docker-desktop" id="-t3wyr4_30" data-external="true" rel="noopener noreferrer">Docker website</a>.</p></li><li class="list__item" id="-t3wyr4_26"><p id="-t3wyr4_31">Run the installer and follow the on-screen instructions.</p></li><li class="list__item" id="-t3wyr4_27"><p id="-t3wyr4_32">After installation, launch Docker Desktop.</p></li><li class="list__item" id="-t3wyr4_28"><p id="-t3wyr4_33">Ensure Docker is running by opening a terminal and typing:</p><div class="code-block" data-lang="bash">
+docker --version
+</div></li></ol></section></section><section class="chapter"><h2 id="chapter-3-docker-basics" data-toc="chapter-3-docker-basics">Chapter 3: Docker Basics</h2><section class="chapter"><h3 id="3-1-docker-architecture" data-toc="3-1-docker-architecture">3.1 Docker Architecture</h3><ul class="list _bullet" id="-t3wyr4_38"><li class="list__item" id="-t3wyr4_39"><p><span class="control" id="-t3wyr4_44">Docker Client</span>: CLI to interact with Docker.</p></li><li class="list__item" id="-t3wyr4_40"><p><span class="control" id="-t3wyr4_45">Docker Daemon</span>: Runs on the host machine, manages Docker objects.</p></li><li class="list__item" id="-t3wyr4_41"><p><span class="control" id="-t3wyr4_46">Docker Images</span>: Read-only templates to create containers.</p></li><li class="list__item" id="-t3wyr4_42"><p><span class="control" id="-t3wyr4_47">Docker Containers</span>: Running instances of Docker images.</p></li><li class="list__item" id="-t3wyr4_43"><p><span class="control" id="-t3wyr4_48">Docker Registry</span>: Stores Docker images.</p></li></ul></section><section class="chapter"><h3 id="3-2-hello-world-in-docker" data-toc="3-2-hello-world-in-docker">3.2 Hello World in Docker</h3><ol class="list _decimal" id="-t3wyr4_49" type="1"><li class="list__item" id="-t3wyr4_50"><p id="-t3wyr4_52">Open PowerShell or Command Prompt.</p></li><li class="list__item" id="-t3wyr4_51"><p id="-t3wyr4_53">Run your first container:</p><div class="code-block" data-lang="bash">
+docker run hello-world
+</div></li></ol></section><section class="chapter"><h3 id="3-3-docker-cli-basics" data-toc="3-3-docker-cli-basics">3.3 Docker CLI Basics</h3><ul class="list _bullet" id="-t3wyr4_55"><li class="list__item" id="-t3wyr4_56"><p id="-t3wyr4_58">List Docker CLI commands:</p><div class="code-block" data-lang="bash">
+docker
+</div></li><li class="list__item" id="-t3wyr4_57"><p id="-t3wyr4_60">Get help on a command:</p><div class="code-block" data-lang="bash">
+docker &lt;command&gt; --help
+</div></li></ul></section></section><section class="chapter"><h2 id="chapter-4-working-with-docker-images" data-toc="chapter-4-working-with-docker-images">Chapter 4: Working with Docker Images</h2><section class="chapter"><h3 id="4-1-pulling-images" data-toc="4-1-pulling-images">4.1 Pulling Images</h3><ul class="list _bullet" id="-t3wyr4_65"><li class="list__item" id="-t3wyr4_66"><p id="-t3wyr4_67">Pull an image from Docker Hub:</p><div class="code-block" data-lang="bash">
+docker pull node
+</div></li></ul></section><section class="chapter"><h3 id="4-2-listing-images" data-toc="4-2-listing-images">4.2 Listing Images</h3><ul class="list _bullet" id="-t3wyr4_69"><li class="list__item" id="-t3wyr4_70"><p id="-t3wyr4_71">List all images on your system:</p><div class="code-block" data-lang="bash">
+docker images
+</div></li></ul></section><section class="chapter"><h3 id="4-3-removing-images" data-toc="4-3-removing-images">4.3 Removing Images</h3><ul class="list _bullet" id="-t3wyr4_73"><li class="list__item" id="-t3wyr4_74"><p id="-t3wyr4_75">Remove an image:</p><div class="code-block" data-lang="bash">
+docker rmi &lt;image_id&gt;
+</div></li></ul></section></section><section class="chapter"><h2 id="chapter-5-docker-containers" data-toc="chapter-5-docker-containers">Chapter 5: Docker Containers</h2><section class="chapter"><h3 id="5-1-running-containers" data-toc="5-1-running-containers">5.1 Running Containers</h3><ul class="list _bullet" id="-t3wyr4_81"><li class="list__item" id="-t3wyr4_82"><p id="-t3wyr4_84">Run a Node.js container interactively:</p><div class="code-block" data-lang="bash">
+docker run -it node /bin/bash
+</div></li><li class="list__item" id="-t3wyr4_83"><p id="-t3wyr4_86">Run a container in the background:</p><div class="code-block" data-lang="bash">
+docker run -d node
+</div></li></ul></section><section class="chapter"><h3 id="5-2-listing-containers" data-toc="5-2-listing-containers">5.2 Listing Containers</h3><ul class="list _bullet" id="-t3wyr4_88"><li class="list__item" id="-t3wyr4_89"><p id="-t3wyr4_91">List all running containers:</p><div class="code-block" data-lang="bash">
+docker ps
+</div></li><li class="list__item" id="-t3wyr4_90"><p id="-t3wyr4_93">List all containers (including stopped):</p><div class="code-block" data-lang="bash">
+docker ps -a
+</div></li></ul></section><section class="chapter"><h3 id="5-3-stopping-containers" data-toc="5-3-stopping-containers">5.3 Stopping Containers</h3><ul class="list _bullet" id="-t3wyr4_95"><li class="list__item" id="-t3wyr4_96"><p id="-t3wyr4_97">Stop a running container:</p><div class="code-block" data-lang="bash">
+docker stop &lt;container_id&gt;
+</div></li></ul></section><section class="chapter"><h3 id="5-4-removing-containers" data-toc="5-4-removing-containers">5.4 Removing Containers</h3><ul class="list _bullet" id="-t3wyr4_99"><li class="list__item" id="-t3wyr4_100"><p id="-t3wyr4_101">Remove a container:</p><div class="code-block" data-lang="bash">
+docker rm &lt;container_id&gt;
+</div></li></ul></section></section><section class="chapter"><h2 id="chapter-6-dockerfile" data-toc="chapter-6-dockerfile">Chapter 6: Dockerfile</h2><section class="chapter"><h3 id="6-1-introduction-to-dockerfile" data-toc="6-1-introduction-to-dockerfile">6.1 Introduction to Dockerfile</h3><p id="-t3wyr4_107">A Dockerfile is a text document that contains instructions for building a Docker image.</p></section><section class="chapter"><h3 id="6-2-creating-a-dockerfile-for-node-js" data-toc="6-2-creating-a-dockerfile-for-node-js">6.2 Creating a Dockerfile for Node.js</h3><ol class="list _decimal" id="-t3wyr4_108" type="1"><li class="list__item" id="-t3wyr4_109"><p id="-t3wyr4_112">Create a directory for your Node.js application, e.g., <code class="code" id="-t3wyr4_113">my-node-app</code>.</p></li><li class="list__item" id="-t3wyr4_110"><p id="-t3wyr4_114">Inside this directory, create a file named <code class="code" id="-t3wyr4_115">Dockerfile</code>.</p></li><li class="list__item" id="-t3wyr4_111"><p id="-t3wyr4_116">Add the following content:</p><div class="code-block" data-lang="bash">
+# Use an official Node.js runtime as a parent image
+FROM node:14
+
+# Set the working directory in the container
+WORKDIR /usr/src/app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code
+COPY . .
+
+# Expose port 3000
+EXPOSE 3000
+
+# Command to run the application
+CMD [&quot;node&quot;, &quot;index.js&quot;]
+</div></li></ol></section><section class="chapter"><h3 id="6-3-building-an-image" data-toc="6-3-building-an-image">6.3 Building an Image</h3><ul class="list _bullet" id="-t3wyr4_118"><li class="list__item" id="-t3wyr4_119"><p id="-t3wyr4_120">Build an image from the Dockerfile:</p><div class="code-block" data-lang="bash">
+docker build -t my-node-app .
+</div></li></ul></section><section class="chapter"><h3 id="6-4-running-your-image" data-toc="6-4-running-your-image">6.4 Running Your Image</h3><ul class="list _bullet" id="-t3wyr4_122"><li class="list__item" id="-t3wyr4_123"><p id="-t3wyr4_124">Run the image as a container:</p><div class="code-block" data-lang="bash">
+docker run -p 3000:3000 my-node-app
+</div></li></ul></section></section><section class="chapter"><h2 id="chapter-7-docker-volumes" data-toc="chapter-7-docker-volumes">Chapter 7: Docker Volumes</h2><section class="chapter"><h3 id="7-1-introduction-to-volumes" data-toc="7-1-introduction-to-volumes">7.1 Introduction to Volumes</h3><p id="-t3wyr4_129">Volumes are used to persist data generated by and used by Docker containers.</p></section><section class="chapter"><h3 id="7-2-creating-volumes" data-toc="7-2-creating-volumes">7.2 Creating Volumes</h3><ul class="list _bullet" id="-t3wyr4_130"><li class="list__item" id="-t3wyr4_131"><p id="-t3wyr4_132">Create a volume:</p><div class="code-block" data-lang="bash">
+docker volume create my-volume
+</div></li></ul></section><section class="chapter"><h3 id="7-3-using-volumes" data-toc="7-3-using-volumes">7.3 Using Volumes</h3><ul class="list _bullet" id="-t3wyr4_134"><li class="list__item" id="-t3wyr4_135"><p id="-t3wyr4_136">Use a volume in a container:</p><div class="code-block" data-lang="bash">
+docker run -d -v my-volume:/usr/src/app my-node-app
+</div></li></ul></section></section><section class="chapter"><h2 id="chapter-8-docker-compose" data-toc="chapter-8-docker-compose">Chapter 8: Docker Compose</h2><section class="chapter"><h3 id="8-1-introduction-to-docker-compose" data-toc="8-1-introduction-to-docker-compose">8.1 Introduction to Docker Compose</h3><p id="-t3wyr4_141">Docker Compose is a tool for defining and running multi-container Docker applications.</p></section><section class="chapter"><h3 id="8-2-creating-a-docker-compose-yml-for-node-js-and-react" data-toc="8-2-creating-a-docker-compose-yml-for-node-js-and-react">8.2 Creating a <code class="code" id="-t3wyr4_144">docker-compose.yml</code> for Node.js and React</h3><ol class="list _decimal" id="-t3wyr4_143" type="1"><li class="list__item" id="-t3wyr4_145"><p id="-t3wyr4_147">In your project directory, create a file named <code class="code" id="-t3wyr4_148">docker-compose.yml</code>.</p></li><li class="list__item" id="-t3wyr4_146"><p id="-t3wyr4_149">Add the following content:</p><div class="code-block" data-lang="yaml">
+version: '3'
+
+services:
+  web:
+    image: my-node-app
+    build: .
+    ports:
+      - &quot;3000:3000&quot;
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - NODE_ENV=development
+  client:
+    image: node:14
+    working_dir: /usr/src/app
+    volumes:
+      - ./client:/usr/src/app
+    command: npm start
+    ports:
+      - &quot;3001:3001&quot;
+</div></li></ol></section><section class="chapter"><h3 id="8-3-running-docker-compose" data-toc="8-3-running-docker-compose">8.3 Running Docker Compose</h3><ul class="list _bullet" id="-t3wyr4_151"><li class="list__item" id="-t3wyr4_152"><p id="-t3wyr4_154">Start your application:</p><div class="code-block" data-lang="bash">
+docker-compose up
+</div></li><li class="list__item" id="-t3wyr4_153"><p id="-t3wyr4_156">Stop your application:</p><div class="code-block" data-lang="bash">
+docker-compose down
+</div></li></ul></section></section><section class="chapter"><h2 id="chapter-9-docker-networking" data-toc="chapter-9-docker-networking">Chapter 9: Docker Networking</h2><section class="chapter"><h3 id="9-1-introduction-to-docker-networking" data-toc="9-1-introduction-to-docker-networking">9.1 Introduction to Docker Networking</h3><p id="-t3wyr4_163">Docker provides a networking model to allow containers to communicate with each other and with non-Docker workloads.</p></section><section class="chapter"><h3 id="9-2-listing-networks" data-toc="9-2-listing-networks">9.2 Listing Networks</h3><ul class="list _bullet" id="-t3wyr4_164"><li class="list__item" id="-t3wyr4_165"><p id="-t3wyr4_166">List all Docker networks:</p><div class="code-block" data-lang="bash">
+docker network ls
+</div></li></ul></section><section class="chapter"><h3 id="9-3-creating-a-network" data-toc="9-3-creating-a-network">9.3 Creating a Network</h3><ul class="list _bullet" id="-t3wyr4_168"><li class="list__item" id="-t3wyr4_169"><p id="-t3wyr4_170">Create a custom network:</p><div class="code-block" data-lang="bash">
+docker network create my-network
+</div></li></ul></section><section class="chapter"><h3 id="9-4-connecting-containers-to-a-network" data-toc="9-4-connecting-containers-to-a-network">9.4 Connecting Containers to a Network</h3><ul class="list _bullet" id="-t3wyr4_172"><li class="list__item" id="-t3wyr4_173"><p id="-t3wyr4_174">Connect a container to a network:</p><div class="code-block" data-lang="bash">
+docker network connect my-network &lt;container_id&gt;
+</div></li></ul></section><section class="chapter"><h3 id="9-5-disconnecting-containers-from-a-network" data-toc="9-5-disconnecting-containers-from-a-network">9.5 Disconnecting Containers from a Network</h3><ul class="list _bullet" id="-t3wyr4_176"><li class="list__item" id="-t3wyr4_177"><p id="-t3wyr4_178">Disconnect a container from a network:</p><div class="code-block" data-lang="bash">
+docker network disconnect my-network &lt;container_id&gt;
+</div></li></ul></section></section><section class="chapter"><h2 id="chapter-10-docker-swarm" data-toc="chapter-10-docker-swarm">Chapter 10: Docker Swarm</h2><section class="chapter"><h3 id="10-1-introduction-to-docker-swarm" data-toc="10-1-introduction-to-docker-swarm">10.1 Introduction to Docker Swarm</h3><p id="-t3wyr4_186">Docker Swarm is a container orchestration tool that allows you to manage a cluster of Docker nodes.</p></section><section class="chapter"><h3 id="10-2-initializing-a-swarm" data-toc="10-2-initializing-a-swarm">10.2 Initializing a Swarm</h3><ul class="list _bullet" id="-t3wyr4_187"><li class="list__item" id="-t3wyr4_188"><p id="-t3wyr4_189">Initialize a swarm:</p><div class="code-block" data-lang="bash">
+docker swarm init
+</div></li></ul></section><section class="chapter"><h3 id="10-3-joining-a-swarm" data-toc="10-3-joining-a-swarm">10.3 Joining a Swarm</h3><ul class="list _bullet" id="-t3wyr4_191"><li class="list__item" id="-t3wyr4_192"><p id="-t3wyr4_193">Get the join command from the manager node and run it on the worker node:</p><div class="code-block" data-lang="bash">
+docker swarm join --token &lt;token&gt; &lt;manager_ip&gt;:2377
+</div></li></ul></section><section class="chapter"><h3 id="10-4-deploying-a-service" data-toc="10-4-deploying-a-service">10.4 Deploying a Service</h3><ul class="list _bullet" id="-t3wyr4_195"><li class="list__item" id="-t3wyr4_196"><p id="-t3wyr4_197">Deploy a service in the swarm:</p><div class="code-block" data-lang="bash">
+docker service create --name my-web-service -p 3000:3000 my-node-app
+</div></li></ul></section><section class="chapter"><h3 id="10-5-listing-services" data-toc="10-5-listing-services">10.5 Listing Services</h3><ul class="list _bullet" id="-t3wyr4_199"><li class="list__item" id="-t3wyr4_200"><p id="-t3wyr4_201">List all services in the swarm:</p><div class="code-block" data-lang="bash">
+docker service ls
+</div></li></ul></section><section class="chapter"><h3 id="10-6-removing-a-service" data-toc="10-6-removing-a-service">10.6 Removing a Service</h3><ul class="list _bullet" id="-t3wyr4_203"><li class="list__item" id="-t3wyr4_204"><p id="-t3wyr4_205">Remove a service:</p><div class="code-block" data-lang="bash">
+docker service rm my-web-service
+</div></li></ul></section></section><section class="chapter"><h2 id="chapter-11-docker-best-practices" data-toc="chapter-11-docker-best-practices">Chapter 11: Docker Best Practices</h2><section class="chapter"><h3 id="11-1-writing-efficient-dockerfiles" data-toc="11-1-writing-efficient-dockerfiles">11.1 Writing Efficient Dockerfiles</h3><ul class="list _bullet" id="-t3wyr4_210"><li class="list__item" id="-t3wyr4_211"><p>Use official images as a base.</p></li><li class="list__item" id="-t3wyr4_212"><p>Minimize the number of layers.</p></li><li class="list__item" id="-t3wyr4_213"><p>Use multi-stage builds for optimized images.</p></li></ul></section><section class="chapter"><h3 id="11-2-managing-secrets" data-toc="11-2-managing-secrets">11.2 Managing Secrets</h3><ul class="list _bullet" id="-t3wyr4_214"><li class="list__item" id="-t3wyr4_215"><p id="-t3wyr4_216">Use Docker secrets to manage sensitive data:</p><div class="code-block" data-lang="bash">
+echo &quot;my_secret_password&quot; | docker secret create my_secret -
+</div></li></ul></section><section class="chapter"><h3 id="11-3-security-practices" data-toc="11-3-security-practices">11.3 Security Practices</h3><ul class="list _bullet" id="-t3wyr4_218"><li class="list__item" id="-t3wyr4_219"><p>Run containers as a non-root user.</p></li><li class="list__item" id="-t3wyr4_220"><p>Keep the host and Docker up to date.</p></li></ul></section></section><section class="chapter"><h2 id="chapter-12-advanced-topics" data-toc="chapter-12-advanced-topics">Chapter 12: Advanced Topics</h2><section class="chapter"><h3 id="12-1-docker-with-kubernetes" data-toc="12-1-docker-with-kubernetes">12.1 Docker with Kubernetes</h3><ul class="list _bullet" id="-t3wyr4_223"><li class="list__item" id="-t3wyr4_224"><p>Install and configure Kubernetes.</p></li><li class="list__item" id="-t3wyr4_225"><p>Deploy Docker containers using Kubernetes.</p></li></ul></section><section class="chapter"><h3 id="12-2-ci-cd-with-docker" data-toc="12-2-ci-cd-with-docker">12.2 CI/CD with Docker</h3><ul class="list _bullet" id="-t3wyr4_226"><li class="list__item" id="-t3wyr4_227"><p id="-t3wyr4_229">Use Docker in your CI/CD pipeline.</p></li><li class="list__item" id="-t3wyr4_228"><p id="-t3wyr4_230">Example with Jenkins:</p><div class="code-block" data-lang="groovy">
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    dockerImage = docker.build(&quot;my-node-app&quot;)
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                script {
+                    dockerImage.inside {
+                        sh 'npm test'
+                    }
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                script {
+                    dockerImage.push('my-repo/my-node-app')
+                }
+            }
+        }
+    }
+}
+</div></li></ul></section></section><div class="last-modified">Last modified: 08 August 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="dockerizing-mongodb.html" class="navigation-links__next">➡️ A Guide to Dockerizing MongoDB</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.10.0-b408/app.js"></script></body></html>
