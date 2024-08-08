@@ -2,7 +2,7 @@
 <!DOCTYPE instance-profile
         SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
 
-<instance-profile id="in"  name="Docker Guide"  start-page="starter.md">
+<instance-profile id="in"  name="Docker Guide"  start-page="Getting-started-with-docker.md">
 
     <toc-element topic="Getting-started-with-docker.md"/>
     <toc-element topic="Dockerizing-MongoDB.md"/>
@@ -10,5 +10,4 @@
     <toc-element topic="Dockerizing-MySQL.md"/>
     <toc-element topic="Dockerizing-MSSQL.md"/>
     <toc-element topic="Modern-Context-menus-in-Windows-11.md"/>
-    <toc-element topic="starter.md"/>
 </instance-profile>

@@ -1,4 +1,4 @@
-# ➡️ Getting started with docker
+# 1️⃣ Getting started with docker ️?
 
 ## Chapter 1: Introduction to Docker
 ### 1.1 What is Docker?

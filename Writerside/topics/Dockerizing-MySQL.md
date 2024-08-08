@@ -1,4 +1,4 @@
-#➡️ A Guide to Dockerizing MySQL
+# 4️⃣ Dockerizing MySQL
 
 ## Chapter 1: Introduction
 This guide will walk you through the steps of Dockerizing MySQL, setting up a user with specific credentials, persisting data using Docker volumes, and performing basic CRUD (Create, Read, Update, Delete) operations. We will cover everything from pulling the MySQL image to running queries.

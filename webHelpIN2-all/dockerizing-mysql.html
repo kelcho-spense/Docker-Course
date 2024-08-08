@@ -1,0 +1,141 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2024-08-08T10:40:01.3433645"><title>4️⃣ Dockerizing MySQL | Docker Guide</title><script type="application/json" id="virtual-toc-data">[{"id":"chapter-1-introduction","level":0,"title":"Chapter 1: Introduction","anchor":"#chapter-1-introduction"},{"id":"chapter-2-setting-up-docker","level":0,"title":"Chapter 2: Setting Up Docker","anchor":"#chapter-2-setting-up-docker"},{"id":"chapter-3-dockerizing-mysql","level":0,"title":"Chapter 3: Dockerizing MySQL","anchor":"#chapter-3-dockerizing-mysql"},{"id":"chapter-4-connecting-to-mysql","level":0,"title":"Chapter 4: Connecting to MySQL","anchor":"#chapter-4-connecting-to-mysql"},{"id":"chapter-5-crud-operations","level":0,"title":"Chapter 5: CRUD Operations","anchor":"#chapter-5-crud-operations"},{"id":"chapter-6-accessing-mysql-from-an-application","level":0,"title":"Chapter 6: Accessing MySQL from an Application","anchor":"#chapter-6-accessing-mysql-from-an-application"},{"id":"chapter-7-cleaning-up","level":0,"title":"Chapter 7: Cleaning Up","anchor":"#chapter-7-cleaning-up"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.10.0-b408/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="4️⃣ Dockerizing MySQL | Docker Guide"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Docker Guide Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/dockerizing-mysql.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="4️⃣ Dockerizing MySQL | Docker Guide"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/dockerizing-mysql.html#webpage",
+    "url": "writerside-documentation/dockerizing-mysql.html",
+    "name": "4️⃣ Dockerizing MySQL | Docker Guide",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Docker Guide Help"
+}</script><!-- End Schema.org --></head><body data-id="Dockerizing-MySQL" data-main-title="4️⃣ Dockerizing MySQL" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs=""><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Docker Guide  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Dockerizing-MySQL" id="Dockerizing-MySQL.md">4️⃣ Dockerizing MySQL</h1><section class="chapter"><h2 id="chapter-1-introduction" data-toc="chapter-1-introduction">Chapter 1: Introduction</h2><p id="-qqwttk_10">This guide will walk you through the steps of Dockerizing MySQL, setting up a user with specific credentials, persisting data using Docker volumes, and performing basic CRUD (Create, Read, Update, Delete) operations. We will cover everything from pulling the MySQL image to running queries.</p></section><section class="chapter"><h2 id="chapter-2-setting-up-docker" data-toc="chapter-2-setting-up-docker">Chapter 2: Setting Up Docker</h2><section class="chapter"><h3 id="2-1-installing-docker-on-windows" data-toc="2-1-installing-docker-on-windows">2.1 Installing Docker on Windows</h3><ol class="list _decimal" id="-qqwttk_12" type="1"><li class="list__item" id="-qqwttk_13"><p id="-qqwttk_17">Download Docker Desktop from the <a href="https://www.docker.com/products/docker-desktop" id="-qqwttk_18" data-external="true" rel="noopener noreferrer">Docker website</a>.</p></li><li class="list__item" id="-qqwttk_14"><p id="-qqwttk_19">Run the installer and follow the instructions.</p></li><li class="list__item" id="-qqwttk_15"><p id="-qqwttk_20">After installation, start Docker Desktop.</p></li><li class="list__item" id="-qqwttk_16"><p id="-qqwttk_21">Verify the installation:</p><div class="code-block" data-lang="bash">
+docker --version
+</div></li></ol></section></section><section class="chapter"><h2 id="chapter-3-dockerizing-mysql" data-toc="chapter-3-dockerizing-mysql">Chapter 3: Dockerizing MySQL</h2><section class="chapter"><h3 id="3-1-pulling-the-mysql-image" data-toc="3-1-pulling-the-mysql-image">3.1 Pulling the MySQL Image</h3><ul class="list _bullet" id="-qqwttk_26"><li class="list__item" id="-qqwttk_27"><p id="-qqwttk_28">Open a command prompt and run the following command to pull the official MySQL image:</p><div class="code-block" data-lang="bash">
+docker pull mysql
+</div></li></ul></section><section class="chapter"><h3 id="3-2-creating-a-docker-volume" data-toc="3-2-creating-a-docker-volume">3.2 Creating a Docker Volume</h3><ul class="list _bullet" id="-qqwttk_30"><li class="list__item" id="-qqwttk_31"><p id="-qqwttk_32">Create a volume to persist MySQL data:</p><div class="code-block" data-lang="bash">
+docker volume create mysql-data
+</div></li></ul></section><section class="chapter"><h3 id="3-3-running-mysql-container-with-authentication-and-persistent-storage" data-toc="3-3-running-mysql-container-with-authentication-and-persistent-storage">3.3 Running MySQL Container with Authentication and Persistent Storage</h3><ul class="list _bullet" id="-qqwttk_34"><li class="list__item" id="-qqwttk_35"><p id="-qqwttk_37">Run the MySQL container with environment variables to set the username and password, and use the volume for data persistence:</p><div class="code-block" data-lang="bash">
+docker run --name mysql_container -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=pass -e MYSQL_USER=admin -e MYSQL_PASSWORD=pass -e MYSQL_DATABASE=mydatabase -v mysql-data:/var/lib/mysql mysql
+</div></li><li class="list__item" id="-qqwttk_36"><p id="-qqwttk_39">Verify the container is running:</p><div class="code-block" data-lang="bash">
+docker ps
+</div></li></ul></section></section><section class="chapter"><h2 id="chapter-4-connecting-to-mysql" data-toc="chapter-4-connecting-to-mysql">Chapter 4: Connecting to MySQL</h2><section class="chapter"><h3 id="4-1-using-mysql-shell" data-toc="4-1-using-mysql-shell">4.1 Using MySQL Shell</h3><p id="-qqwttk_42">You have two options to connect to the MySQL shell:</p><section class="chapter"><h4 id="option-1-direct-command" data-toc="option-1-direct-command">Option 1: Direct Command</h4><ul class="list _bullet" id="-qqwttk_45"><li class="list__item" id="-qqwttk_46"><p id="-qqwttk_48">Start the MySQL shell directly:</p><div class="code-block" data-lang="bash">
+docker exec -it mysql_container mysql -u admin -p
+</div></li><li class="list__item" id="-qqwttk_47"><p id="-qqwttk_50">you will be prompted to Enter password:</p><div class="code-block" data-lang="bash">
+Enter password: pass
+</div></li></ul></section><section class="chapter"><h4 id="option-2-entering-the-container-first" data-toc="option-2-entering-the-container-first">Option 2: Entering the Container First</h4><ol class="list _decimal" id="-qqwttk_52" type="1"><li class="list__item" id="-qqwttk_54"><p id="-qqwttk_59">Start a bash shell inside the running MySQL container:</p><div class="code-block" data-lang="bash">
+docker exec -it mysql_container /bin/bash
+</div></li><li class="list__item" id="-qqwttk_55"><p id="-qqwttk_61">Once inside the container, start the MySQL shell:</p><div class="code-block" data-lang="bash">
+mysql -u admin -p
+</div></li><li class="list__item" id="-qqwttk_56"><p id="-qqwttk_63">Enter the password when prompted (<code class="code" id="-qqwttk_64">pass</code> in this example).</p></li><li class="list__item" id="-qqwttk_57"><p id="-qqwttk_65">You should now be in the MySQL shell:</p><div class="code-block" data-lang="sql">
+mysql&gt;
+</div></li><li class="list__item" id="-qqwttk_58"><p id="-qqwttk_67">In the MySQL shell, you can list all databases using the following command:</p></li></ol><ul class="list _bullet" id="-qqwttk_53"><li class="list__item" id="-qqwttk_68"><p id="-qqwttk_69">List All Databases:</p><div class="code-block" data-lang="sql">
+SHOW DATABASES;
+</div></li></ul></section></section></section><section class="chapter"><h2 id="chapter-5-crud-operations" data-toc="chapter-5-crud-operations">Chapter 5: CRUD Operations</h2><section class="chapter"><h3 id="5-1-creating-a-database-and-table" data-toc="5-1-creating-a-database-and-table">5.1 Creating a Database and Table</h3><ol class="list _decimal" id="-qqwttk_77" type="1"><li class="list__item" id="-qqwttk_78"><p id="-qqwttk_81">Create a new database called <code class="code" id="-qqwttk_83">mydatabase</code>:</p><div class="code-block" data-lang="sql">
+CREATE DATABASE mydatabase;
+</div></li><li class="list__item" id="-qqwttk_79"><p id="-qqwttk_84">Select the new database:</p><div class="code-block" data-lang="sql">
+USE mydatabase;
+</div></li><li class="list__item" id="-qqwttk_80"><p id="-qqwttk_86">Create a new table called <code class="code" id="-qqwttk_88">mytable</code>:</p><div class="code-block" data-lang="sql">
+CREATE TABLE mytable (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    age INT,
+    occupation VARCHAR(100)
+);
+</div></li></ol></section><section class="chapter"><h3 id="5-2-create-insert-records" data-toc="5-2-create-insert-records">5.2 Create (Insert) Records</h3><ol class="list _decimal" id="-qqwttk_89" type="1"><li class="list__item" id="-qqwttk_90"><p id="-qqwttk_92">Insert a single record into <code class="code" id="-qqwttk_94">mytable</code>:</p><div class="code-block" data-lang="sql">
+INSERT INTO mytable (name, age, occupation) VALUES ('John Doe', 30, 'Engineer');
+</div></li><li class="list__item" id="-qqwttk_91"><p id="-qqwttk_95">Insert multiple records:</p><div class="code-block" data-lang="sql">
+INSERT INTO mytable (name, age, occupation) VALUES 
+('Jane Doe', 25, 'Teacher'),
+('Steve Smith', 40, 'Chef');
+</div></li></ol></section><section class="chapter"><h3 id="5-3-read-query-records" data-toc="5-3-read-query-records">5.3 Read (Query) Records</h3><ol class="list _decimal" id="-qqwttk_97" type="1"><li class="list__item" id="-qqwttk_98"><p id="-qqwttk_101">Select one record:</p><div class="code-block" data-lang="sql">
+SELECT * FROM mytable WHERE name = 'John Doe';
+</div></li><li class="list__item" id="-qqwttk_99"><p id="-qqwttk_103">Select all records:</p><div class="code-block" data-lang="sql">
+SELECT * FROM mytable;
+</div></li><li class="list__item" id="-qqwttk_100"><p id="-qqwttk_105">Select records with a condition:</p><div class="code-block" data-lang="sql">
+SELECT * FROM mytable WHERE age &gt; 30;
+</div></li></ol></section><section class="chapter"><h3 id="5-4-update-records" data-toc="5-4-update-records">5.4 Update Records</h3><ol class="list _decimal" id="-qqwttk_107" type="1"><li class="list__item" id="-qqwttk_108"><p id="-qqwttk_110">Update a single record:</p><div class="code-block" data-lang="sql">
+UPDATE mytable SET age = 31 WHERE name = 'John Doe';
+</div></li><li class="list__item" id="-qqwttk_109"><p id="-qqwttk_112">Update multiple records:</p><div class="code-block" data-lang="sql">
+UPDATE mytable SET occupation = 'Head Chef' WHERE occupation = 'Chef';
+</div></li></ol></section><section class="chapter"><h3 id="5-5-delete-records" data-toc="5-5-delete-records">5.5 Delete Records</h3><ol class="list _decimal" id="-qqwttk_114" type="1"><li class="list__item" id="-qqwttk_115"><p id="-qqwttk_117">Delete a single record:</p><div class="code-block" data-lang="sql">
+DELETE FROM mytable WHERE name = 'John Doe';
+</div></li><li class="list__item" id="-qqwttk_116"><p id="-qqwttk_119">Delete multiple records:</p><div class="code-block" data-lang="sql">
+DELETE FROM mytable WHERE age &lt; 30;
+</div></li></ol></section><section class="chapter"><h3 id="5-6-additional-useful-commands" data-toc="5-6-additional-useful-commands">5.6 Additional Useful Commands</h3><ul class="list _bullet" id="-qqwttk_121"><li class="list__item" id="-qqwttk_122"><p id="-qqwttk_125">List all tables in the current database:</p><div class="code-block" data-lang="sql">
+SHOW TABLES;
+</div></li><li class="list__item" id="-qqwttk_123"><p id="-qqwttk_127">Describe the structure of a table:</p><div class="code-block" data-lang="sql">
+DESCRIBE mytable;
+</div></li><li class="list__item" id="-qqwttk_124"><p id="-qqwttk_129">List all users:</p><div class="code-block" data-lang="sql">
+SELECT User, Host FROM mysql.user;
+</div></li></ul></section></section><section class="chapter"><h2 id="chapter-6-accessing-mysql-from-an-application" data-toc="chapter-6-accessing-mysql-from-an-application">Chapter 6: Accessing MySQL from an Application</h2><section class="chapter"><h3 id="6-1-using-mysql-with-node-js" data-toc="6-1-using-mysql-with-node-js">6.1 Using MySQL with Node.js</h3><ol class="list _decimal" id="-qqwttk_132" type="1"><li class="list__item" id="-qqwttk_133"><p id="-qqwttk_139">Install Node.js from the <a href="https://nodejs.org/" id="-qqwttk_140" data-external="true" rel="noopener noreferrer">official website</a>.</p></li><li class="list__item" id="-qqwttk_134"><p id="-qqwttk_141">Create a new project directory and navigate into it:</p><div class="code-block" data-lang="bash">
+mkdir my-mysql-app
+cd my-mysql-app
+</div></li><li class="list__item" id="-qqwttk_135"><p id="-qqwttk_143">Initialize a new Node.js project:</p><div class="code-block" data-lang="bash">
+npm init -y
+</div></li><li class="list__item" id="-qqwttk_136"><p id="-qqwttk_145">Install the <code class="code" id="-qqwttk_147">mysql</code> package:</p><div class="code-block" data-lang="bash">
+npm install mysql2
+</div></li><li class="list__item" id="-qqwttk_137"><p id="-qqwttk_148">Create an <code class="code" id="-qqwttk_150">index.js</code> file and add the following code:</p><div class="code-block" data-lang="javascript">
+const mysql = require('mysql2/promise');
+
+ async function main() {
+ const connection = await mysql.createConnection({
+ host: 'localhost',
+ user: 'admin',
+ password: 'pass',
+ database: 'mydatabase'
+ });
+
+ try {
+ console.log('connected as id ' + connection.threadId);
+
+     // Insert a record
+     const [insertResults] = await connection.execute(
+       &quot;INSERT INTO mytable (name, age, occupation) VALUES (?, ?, ?)&quot;,
+       ['Alice', 28, 'Designer']
+     );
+     console.log('Inserted record ID:', insertResults.insertId);
+
+     // Select a record
+     const [selectResults] = await connection.execute(
+       &quot;SELECT * FROM mytable WHERE name = ?&quot;,
+       ['Alice']
+     );
+     console.log('Selected record:', selectResults[0]);
+
+     // Update a record
+     const [updateResults] = await connection.execute(
+       &quot;UPDATE mytable SET age = ? WHERE name = ?&quot;,
+       [29, 'Alice']
+     );
+     console.log('Updated record count:', updateResults.affectedRows);
+
+     // Delete a record
+     const [deleteResults] = await connection.execute(
+       &quot;DELETE FROM mytable WHERE name = ?&quot;,
+       ['Alice']
+     );
+     console.log('Deleted record count:', deleteResults.affectedRows);
+ } catch (err) {
+ console.error('error:', err.stack);
+ } finally {
+ await connection.end();
+ }
+ }
+
+ main();
+</div></li><li class="list__item" id="-qqwttk_138"><p id="-qqwttk_151">Run the application:</p><div class="code-block" data-lang="bash">
+node index.js
+</div></li></ol></section></section><section class="chapter"><h2 id="chapter-7-cleaning-up" data-toc="chapter-7-cleaning-up">Chapter 7: Cleaning Up</h2><section class="chapter"><h3 id="7-1-stopping-and-removing-the-mysql-container" data-toc="7-1-stopping-and-removing-the-mysql-container">7.1 Stopping and Removing the MySQL Container</h3><ul class="list _bullet" id="-qqwttk_156"><li class="list__item" id="-qqwttk_157"><p id="-qqwttk_159">Stop the container:</p><div class="code-block" data-lang="bash">
+docker stop mysql_container
+</div></li><li class="list__item" id="-qqwttk_158"><p id="-qqwttk_161">Remove the container:</p><div class="code-block" data-lang="bash">
+docker rm mysql_container
+</div></li></ul></section><section class="chapter"><h3 id="7-2-removing-the-mysql-image" data-toc="7-2-removing-the-mysql-image">7.2 Removing the MySQL Image</h3><ul class="list _bullet" id="-qqwttk_163"><li class="list__item" id="-qqwttk_164"><p id="-qqwttk_165">Remove the MySQL image:</p><div class="code-block" data-lang="bash">
+docker rmi mysql
+</div></li></ul></section><section class="chapter"><h3 id="7-3-removing-the-docker-volume" data-toc="7-3-removing-the-docker-volume">7.3 Removing the Docker Volume</h3><ul class="list _bullet" id="-qqwttk_167"><li class="list__item" id="-qqwttk_169"><p id="-qqwttk_170">Remove the Docker volume:</p><div class="code-block" data-lang="bash">
+docker volume rm mysql-data
+</div></li></ul></section></section><div class="last-modified">Last modified: 08 August 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="dockerizing-postgresql.html" class="navigation-links__prev">3️⃣ Dockerizing PostgreSQL</a><a href="dockerizing-mssql.html" class="navigation-links__next">5️⃣ Dockerizing MSSQL</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.10.0-b408/app.js"></script></body></html>
