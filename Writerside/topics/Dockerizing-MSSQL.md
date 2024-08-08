@@ -1,4 +1,4 @@
-#➡️ A Guide to Dockerizing MSSQL
+#🔖️ A Guide to Dockerizing MSSQL
 
 ## Chapter 1: Introduction
 This guide will walk you through the steps of Dockerizing Microsoft SQL Server (MSSQL), setting up a user with specific credentials, persisting data using Docker volumes, and performing basic CRUD (Create, Read, Update, Delete) operations on a Windows system. We will cover everything from pulling the MSSQL image to running queries.

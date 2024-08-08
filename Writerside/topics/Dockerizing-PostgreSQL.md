@@ -1,4 +1,4 @@
-#➡️ A Guide to Dockerizing PostgreSQL
+#🔖 A Guide to Dockerizing PostgreSQL
 
 ## Chapter 1: Introduction
 This guide will walk you through the steps of Dockerizing PostgreSQL, setting up a user with specific credentials, persisting data using Docker volumes, and performing basic CRUD (Create, Read, Update, Delete) operations. We will cover everything from pulling the PostgreSQL image to running queries.

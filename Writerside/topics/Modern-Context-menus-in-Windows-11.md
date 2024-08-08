@@ -1,4 +1,4 @@
-# ➡️ Restore the old Context Menu in Windows 11
+# 🔖 Restore the old Context Menu in Windows 11
 
 1. Right-click the Start button and choose Windows Terminal.
 2. Copy the command from below, paste it into Windows Terminal Window, and press enter.
