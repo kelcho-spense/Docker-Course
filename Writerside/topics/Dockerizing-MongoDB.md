@@ -1,4 +1,4 @@
-# 2️⃣ Dockerizing MongoDB
+# Dockerizing MongoDB
 
 ## Chapter 1: Introduction
 This guide will walk you through the steps of Dockerizing MongoDB, setting up a user with specific credentials, persisting data using Docker volumes, and performing basic CRUD (Create, Read, Update, Delete) operations. We will cover everything from pulling the MongoDB image to running queries.
