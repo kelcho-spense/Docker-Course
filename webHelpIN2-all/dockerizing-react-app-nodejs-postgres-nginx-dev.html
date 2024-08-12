@@ -1,0 +1,568 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2024-08-12T10:08:00.7210754"><title>Dockerizing a React App with Node.js, Postgres, and Nginx &lt;Dev &amp; Prod&gt; | Docker Guide</title><script type="application/json" id="virtual-toc-data">[{"id":"development-mode","level":0,"title":"Development Mode","anchor":"#development-mode"},{"id":"react-folder-file-structure","level":0,"title":"React Folder \u0026 File structure","anchor":"#react-folder-file-structure"},{"id":"build-the-docker-image","level":0,"title":"Build the Docker Image","anchor":"#build-the-docker-image"},{"id":"run-the-docker-container","level":0,"title":"Run the Docker Container","anchor":"#run-the-docker-container"},{"id":"node-express-folder-file-structure","level":0,"title":"Node Express Folder \u0026 File Structure","anchor":"#node-express-folder-file-structure"},{"id":"nginx-file-structure","level":0,"title":"NGINX \u0026 File structure","anchor":"#nginx-file-structure"},{"id":"combined-project-structure-with-docker-compose","level":0,"title":"Combined Project Structure with Docker Compose","anchor":"#combined-project-structure-with-docker-compose"},{"id":"production-mode","level":0,"title":"Production Mode","anchor":"#production-mode"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.10.0-b408/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Dockerizing a React App with Node.js, Postgres, and Nginx &lt;Dev &amp; Prod&gt; | Docker Guide"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Docker Guide Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/dockerizing-react-app-nodejs-postgres-nginx-dev.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Dockerizing a React App with Node.js, Postgres, and Nginx &lt;Dev &amp; Prod&gt; | Docker Guide"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/dockerizing-react-app-nodejs-postgres-nginx-dev.html#webpage",
+    "url": "writerside-documentation/dockerizing-react-app-nodejs-postgres-nginx-dev.html",
+    "name": "Dockerizing a React App with Node.js, Postgres, and Nginx &lt;Dev &amp; Prod&gt; | Docker Guide",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Docker Guide Help"
+}</script><!-- End Schema.org --></head><body data-id="Dockerizing-React-app-Nodejs-Postgres-&amp;-NginX[dev]" data-main-title="Dockerizing a React App with Node.js, Postgres, and Nginx &lt;Dev & Prod&gt;" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs=""><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Docker Guide  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Dockerizing-React-app-Nodejs-Postgres-&amp;-NginX[dev]" id="Dockerizing-React-app-Nodejs-Postgres-&amp;-NginX[dev].md">Dockerizing a React App with Node.js, Postgres, and Nginx &lt;Dev & Prod&gt;</h1><p id="-q8l2nj_2">This guide provides a step-by-step approach to Dockerizing a React application using Vite, with Node.js, Postgres, and Nginx, for both development and production environments.</p><section class="chapter"><h2 id="development-mode" data-toc="development-mode">Development Mode</h2><figure id="-q8l2nj_13"><img alt="dev.png" src="images/dev.png" title="dev.png" width="1041" height="442"></figure><p id="-q8l2nj_14">In your development environment, the architecture works as follows:</p><ol class="list _decimal" id="-q8l2nj_15" type="1"><li class="list__item" id="-q8l2nj_17"><p><span class="control" id="-q8l2nj_21">Nginx</span> acts as a reverse proxy, routing incoming HTTP requests to either the <span class="control" id="-q8l2nj_22">React server</span> or the <span class="control" id="-q8l2nj_23">Express server</span> based on the request path.</p></li><li class="list__item" id="-q8l2nj_18"><p><span class="control" id="-q8l2nj_24">React Server</span> handles all requests for the frontend (i.e., your React application). When you develop, changes here are served by the React development server, often with hot-reloading.</p></li><li class="list__item" id="-q8l2nj_19"><p><span class="control" id="-q8l2nj_25">Express Server</span> processes backend API requests. These requests might involve querying or updating data in the <span class="control" id="-q8l2nj_26">Postgres</span> database.</p></li><li class="list__item" id="-q8l2nj_20"><p><span class="control" id="-q8l2nj_27">Nginx</span> forwards requests: </p><ul class="list _bullet" id="-q8l2nj_28"><li class="list__item" id="-q8l2nj_29"><p>Requests to the base URL (e.g., <code class="code" id="-q8l2nj_31">http://localhost/</code>) are sent to the React server.</p></li><li class="list__item" id="-q8l2nj_30"><p>Requests to paths starting with <code class="code" id="-q8l2nj_32">/api</code> are forwarded to the Express server, which may interact with the Postgres database.</p></li></ul></li></ol><p id="-q8l2nj_16">This setup allows you to work on both the frontend and backend in a unified environment, ensuring that you can test how they interact together while still enjoying the benefits of a development-focused workflow like hot-reloading and quick feedback.</p></section><section class="chapter"><h2 id="react-folder-file-structure" data-toc="react-folder-file-structure">React Folder &amp; File structure</h2><section class="chapter"><h3 id="1-client-react-vite" data-toc="1-client-react-vite">1. Client: React + Vite</h3><figure id="-q8l2nj_39"><img alt="react-structure.png" src="images/react-structure.png" title="react-structure.png" width="492" height="454"></figure><ul class="list _bullet" id="-q8l2nj_40"><li class="list__item" id="-q8l2nj_41"><p id="-q8l2nj_43"><span class="control" id="-q8l2nj_45">Create a Vite React project:</span></p><div class="code-block" data-lang="bash">
+npm create vite@latest my-react-app -- --template react
+cd my-react-app
+npm install
+</div></li><li class="list__item" id="-q8l2nj_42"><p id="-q8l2nj_46"><span class="control" id="-q8l2nj_48">Install necessary dependencies:</span> You'll need to install <code class="code" id="-q8l2nj_49">react-router-dom</code> and <code class="code" id="-q8l2nj_50">axios</code> for routing and HTTP requests.</p><div class="code-block" data-lang="bash">
+npm install react-router-dom@4.3.1 axios
+</div></li></ul></section><section class="chapter"><h3 id="2-create-the-project-structure" data-toc="2-create-the-project-structure">2. Create the Project Structure</h3><p id="-q8l2nj_51">Your project should be structured as follows:</p><div class="code-block" data-lang="none">
+my-react-app/
+├── node_modules/ 
+├── public/
+├── src/
+│   ├── assets/
+│   ├── Components/
+│   │   ├── MainComponent.jsx
+│   │   ├── MainComponent.css
+│   │   ├── OtherPage.jsx
+│   ├── App.css
+│   ├── App.jsx
+│   ├── index.css
+│   ├── main.jsx
+│   └── vite-env.d.ts
+├── .dockerignore
+├── .gitignore
+├── Dockerfile.dev
+├── Dockerfile
+├── eslint.config.js
+├── index.html
+├── package.json
+├── pnpm-lock.yaml
+├── README.md
+└── vite.config.js
+</div></section><section class="chapter"><h3 id="3-add-the-required-code" data-toc="3-add-the-required-code">3. Add the Required Code</h3><ul class="list _bullet" id="-q8l2nj_53"><li class="list__item" id="-q8l2nj_67"><section class="chapter"><h4 id="src-app-jsx" data-toc="src-app-jsx"><code class="code" id="-q8l2nj_70">src/App.jsx</code></h4></section></li></ul><div class="code-block" data-lang="javascript">
+import './App.css';
+import { BrowserRouter as Router, Route, Link } from &quot;react-router-dom&quot;;
+import MainComponent from './Components/MainComponent';
+import OtherPage from './Components/OtherPage';
+
+function App() {
+  return (
+    &lt;Router&gt;
+      &lt;&gt;
+        &lt;header className=&quot;header&quot;&gt;
+          &lt;div&gt;This is a multicontainer application&lt;/div&gt;
+          &lt;Link to=&quot;/&quot;&gt;Home&lt;/Link&gt;
+          &lt;Link to=&quot;/otherpage&quot;&gt;Other page&lt;/Link&gt;
+        &lt;/header&gt;
+        &lt;div className=&quot;main&quot;&gt;
+          &lt;Route exact path=&quot;/&quot; component={MainComponent} /&gt;
+          &lt;Route path=&quot;/otherpage&quot; component={OtherPage} /&gt;
+        &lt;/div&gt;
+      &lt;/&gt;
+    &lt;/Router&gt;
+  );
+}
+
+export default App;
+</div><ul class="list _bullet" id="-q8l2nj_55"><li class="list__item" id="-q8l2nj_71"><section class="chapter"><h4 id="src-app-css" data-toc="src-app-css"><code class="code" id="-q8l2nj_74">src/App.css</code></h4></section></li></ul><div class="code-block" data-lang="css">
+.header {
+  background: #eee;
+}
+
+.header a {
+  margin-left: 20px;
+}
+
+.main {
+  padding: 10px;
+  background: #ccc;
+}
+</div><ul class="list _bullet" id="-q8l2nj_57"><li class="list__item" id="-q8l2nj_75"><section class="chapter"><h4 id="src-index-css" data-toc="src-index-css"><code class="code" id="-q8l2nj_78">src/index.css</code></h4></section></li></ul><div class="code-block" data-lang="css">
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+</div><ul class="list _bullet" id="-q8l2nj_59"><li class="list__item" id="-q8l2nj_79"><section class="chapter"><h4 id="src-main-jsx" data-toc="src-main-jsx"><code class="code" id="-q8l2nj_82">src/main.jsx</code></h4></section></li></ul><div class="code-block" data-lang="javascript">
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App.jsx';
+import './index.css';
+
+createRoot(document.getElementById('root')).render(
+  &lt;StrictMode&gt;
+    &lt;App /&gt;
+  &lt;/StrictMode&gt;,
+);
+</div><ul class="list _bullet" id="-q8l2nj_61"><li class="list__item" id="-q8l2nj_83"><section class="chapter"><h4 id="src-components-maincomponent-jsx" data-toc="src-components-maincomponent-jsx"><code class="code" id="-q8l2nj_86">src/Components/MainComponent.jsx</code></h4></section></li></ul><div class="code-block" data-lang="javascript">
+import { useCallback, useState, useEffect } from &quot;react&quot;;
+import axios from &quot;axios&quot;;
+import &quot;./MainComponent.css&quot;;
+
+function MainComponent() {
+  const [values, setValues] = useState([]);
+  const [value, setValue] = useState(&quot;&quot;);
+
+  const getAllNumbers = useCallback(async () =&gt; {
+    const data = await axios.get(&quot;/api/values/all&quot;);
+    setValues(data.data.rows.map(row =&gt; row.number));
+  }, []);
+
+  const saveNumber = useCallback(
+    async (event) =&gt; {
+      event.preventDefault();
+      await axios.post(&quot;/api/values&quot;, { value });
+
+      setValue(&quot;&quot;);
+      getAllNumbers();
+    },
+    [value, getAllNumbers]
+  );
+
+  useEffect(() =&gt; {
+    getAllNumbers();
+  }, []);
+
+  return (
+    &lt;div&gt;
+      &lt;button onClick={getAllNumbers}&gt;Get all numbers&lt;/button&gt;
+      &lt;br /&gt;
+      &lt;span className=&quot;title&quot;&gt;Values&lt;/span&gt;
+      &lt;div className=&quot;values&quot;&gt;
+        {values.map((value, index) =&gt; (
+          &lt;div className=&quot;value&quot; key={index}&gt;{value}&lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+      &lt;form className=&quot;form&quot; onSubmit={saveNumber}&gt;
+        &lt;label&gt;Enter your value: &lt;/label&gt;
+        &lt;input
+          value={value}
+          onChange={event =&gt; {
+            setValue(event.target.value);
+          }}
+        /&gt;
+        &lt;button&gt;Submit&lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default MainComponent;
+</div><ul class="list _bullet" id="-q8l2nj_63"><li class="list__item" id="-q8l2nj_87"><section class="chapter"><h4 id="src-components-maincomponent-css" data-toc="src-components-maincomponent-css"><code class="code" id="-q8l2nj_90">src/Components/MainComponent.css</code></h4></section></li></ul><div class="code-block" data-lang="css">
+.title {
+  font-weight: bold;
+}
+
+.values {
+  margin-top: 20px;
+  background: yellow;
+}
+
+.value {
+  margin-top: 10px;
+  border-top: 1px dashed black;
+}
+
+.form {
+  margin-top: 20px;
+}
+</div><ul class="list _bullet" id="-q8l2nj_65"><li class="list__item" id="-q8l2nj_91"><section class="chapter"><h4 id="src-components-otherpage-jsx" data-toc="src-components-otherpage-jsx"><code class="code" id="-q8l2nj_94">src/Components/OtherPage.jsx</code></h4></section></li></ul><div class="code-block" data-lang="javascript">
+import { Link } from &quot;react-router-dom&quot;;
+
+function OtherPage() {
+  return (
+    &lt;div&gt;
+      I'm another page!
+      &lt;br /&gt;
+      &lt;br /&gt;
+      &lt;Link to=&quot;/&quot;&gt;Go back to home screen&lt;/Link&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default OtherPage;
+</div></section><section class="chapter"><h3 id="4-configuration-files" data-toc="4-configuration-files">4. Configuration Files</h3><ul class="list _bullet" id="-q8l2nj_95"><li class="list__item" id="-q8l2nj_99"><section class="chapter"><h4 id="dockerignore" data-toc="dockerignore"><code class="code" id="-q8l2nj_102">.dockerignore</code></h4></section></li></ul><div class="code-block" data-lang="none">
+node_modules
+build
+.git
+.gitignore
+Dockerfile
+Dockerfile.dev
+.dockerignore
+*.log
+.DS_Store
+.git
+</div><ul class="list _bullet" id="-q8l2nj_97"><li class="list__item" id="-q8l2nj_103"><section class="chapter"><h4 id="gitignore" data-toc="gitignore"><code class="code" id="-q8l2nj_106">.gitignore</code></h4></section></li></ul><div class="code-block" data-lang="none">
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+</div></section><section class="chapter"><h3 id="4-adjust-the-vite-config-js-config" data-toc="4-adjust-the-vite-config-js-config">4. Adjust the vite.config.js config</h3><ul class="list _bullet" id="-q8l2nj_107"><li class="list__item" id="-q8l2nj_109"><section class="chapter"><h4 id="vite-config-js" data-toc="vite-config-js"><code class="code" id="-q8l2nj_112">vite.config.js</code></h4></section></li></ul><div class="code-block" data-lang="javascript">
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    host: true,
+    port: 5173,
+    watch: {
+      usePolling: true
+    }
+  }
+})
+</div></section><section class="chapter"><h3 id="5-add-the-docker-files" data-toc="5-add-the-docker-files">5. Add the docker files</h3><ul class="list _bullet" id="-q8l2nj_113"><li class="list__item" id="-q8l2nj_115"><section class="chapter"><h4 id="docker-dev" data-toc="docker-dev"><code class="code" id="-q8l2nj_118">Docker.dev</code></h4></section></li></ul><div class="code-block" data-lang="dockerfile">
+# Use an official Node.js runtime as a parent image                       
+FROM node:20.16.0-alpine                                                  
+# Set the working directory in the container                              
+WORKDIR /app                                                              
+# Install dependencies                                                    
+COPY package.json pnpm-lock.yaml ./                                       
+# Copy the rest of the application code                                   
+COPY . .                                                                  
+# Expose port 5173 (default Vite port)                                    
+EXPOSE 5173                                                               
+# Command to run the development server                                   
+CMD [&quot;npm&quot;, &quot;run&quot;, &quot;dev&quot;]                                                 
+</div></section></section><section class="chapter"><h2 id="build-the-docker-image" data-toc="build-the-docker-image">Build the Docker Image</h2><p id="-q8l2nj_119">Navigate to the root directory of your project where the Dockerfile.dev is located. Run the following command to build the Docker image for development:</p><div class="code-block" data-lang="bash">
+docker build -t my-react-app-dev -f Dockerfile.dev .
+</div><p id="-q8l2nj_121">This command tells Docker to:</p><p id="-q8l2nj_122">-t client: Tag the image as my-react-app-dev. -f Dockerfile.dev: Use the Dockerfile.dev file for building the image.</p></section><section class="chapter"><h2 id="run-the-docker-container" data-toc="run-the-docker-container">Run the Docker Container</h2><p id="-q8l2nj_123">After building the image, you can run the container with the following command:</p><div class="code-block" data-lang="bash">
+docker run -it --rm -p 5173:5173 client
+</div><p id="-q8l2nj_125">Explanation:</p><ul class="list _bullet" id="-q8l2nj_126"><li class="list__item" id="-q8l2nj_127"><p><span class="control" id="-q8l2nj_129">-it</span>: Runs the container interactively.</p></li><li class="list__item" id="-q8l2nj_128"><p><span class="control" id="-q8l2nj_130">--rm</span>: Automatically removes the container when it exits. -p <code class="code" id="-q8l2nj_131">5173:5173</code>: Maps port 5173 on your local machine to port 5173 in the container, which is where the Vite development server will be running.</p></li></ul></section><section class="chapter"><h2 id="node-express-folder-file-structure" data-toc="node-express-folder-file-structure">Node Express Folder &amp; File Structure</h2><p id="-q8l2nj_132">Here's a guide to create an Express.js application, dockerizing it for development, and managing environment variables securely using a <code class="code" id="-q8l2nj_142">keys.js</code> file.</p><figure id="-q8l2nj_133"><img alt="serverfolderstructure.png" src="images/serverfolderstructure.png" title="serverfolderstructure.png" width="292" height="214"></figure><section class="chapter"><h3 id="step-1-set-up-the-project-directory" data-toc="step-1-set-up-the-project-directory">Step 1: Set Up the Project Directory</h3><div class="code-block" data-lang="bash">
+server/
+├── node_modules/ 
+├── .dockerignore 
+├── Dockerfile.dev 
+├── index.js
+├── keys.js 
+├── package.json
+├── pnpm-lock.yaml
+└── .gitignore
+</div><p id="-q8l2nj_144">Create a new directory for your project:</p><div class="code-block" data-lang="bash">
+mkdir express-postgres-app
+cd express-postgres-app
+</div></section><section class="chapter"><h3 id="step-2-initialize-the-node-js-project" data-toc="step-2-initialize-the-node-js-project">Step 2: Initialize the Node.js Project</h3><p id="-q8l2nj_146">Run the following command to initialize a new Node.js project:</p><div class="code-block" data-lang="bash">
+npm init -y
+</div><p id="-q8l2nj_148">This will create a <code class="code" id="-q8l2nj_149">package.json</code> file with default settings.</p></section><section class="chapter"><h3 id="step-3-install-dependencies" data-toc="step-3-install-dependencies">Step 3: Install Dependencies</h3><p id="-q8l2nj_150">Install the required dependencies: Express, PostgreSQL client (pg), CORS, and body-parser:</p><div class="code-block" data-lang="bash">
+npm install express pg cors body-parser
+</div></section><section class="chapter"><h3 id="step-4-create-the-application-files" data-toc="step-4-create-the-application-files">Step 4: Create the Application Files</h3><section class="chapter"><h4 id="1-create-index-js" data-toc="1-create-index-js">1. <span class="control" id="-q8l2nj_157">Create <code class="code" id="-q8l2nj_158">index.js</code></span></h4><p id="-q8l2nj_155">In the root of your project directory, create a file named <code class="code" id="-q8l2nj_159">index.js</code> and add the following code:</p><div class="code-block" data-lang="javascript">
+const keys = require(&quot;./keys&quot;);
+const express = require(&quot;express&quot;);
+const bodyParser = require(&quot;body-parser&quot;);
+const cors = require(&quot;cors&quot;);
+const { Pool } = require(&quot;pg&quot;);
+
+const app = express();
+
+// Middlewares
+app.use(cors());
+app.use(bodyParser.json());
+
+// Postgres client setup
+const pgClient = new Pool({
+  user: keys.pgUser,
+  host: keys.pgHost,
+  database: keys.pgDatabase,
+  password: keys.pgPassword,
+  port: keys.pgPort
+});
+
+pgClient.on(&quot;connect&quot;, client =&gt; {
+  client.query(&quot;CREATE TABLE IF NOT EXISTS values (number INT)&quot;)
+    .catch(err =&gt; console.log(&quot;PG ERROR&quot;, err));
+});
+
+// Express route definitions
+app.get(&quot;/&quot;, (req, res) =&gt; {
+  res.send(&quot;Hi&quot;);
+});
+
+// Get all values
+app.get(&quot;/values/all&quot;, async (req, res) =&gt; {
+  const values = await pgClient.query(&quot;SELECT * FROM values&quot;);
+  res.send(values.rows);
+});
+
+// Insert a new value
+app.post(&quot;/values&quot;, async (req, res) =&gt; {
+  if (!req.body.value) return res.send({ working: false });
+
+  await pgClient.query(&quot;INSERT INTO values(number) VALUES($1)&quot;, [req.body.value]);
+
+  res.send({ working: true });
+});
+
+app.listen(8000, () =&gt; {
+  console.log(&quot;Listening on port 8000&quot;);
+});
+</div></section><section class="chapter"><h4 id="2-create-keys-js" data-toc="2-create-keys-js">2. <span class="control" id="-q8l2nj_164">Create <code class="code" id="-q8l2nj_165">keys.js</code></span></h4><p id="-q8l2nj_161">Create a file named <code class="code" id="-q8l2nj_166">keys.js</code> in the root directory with the following content:</p><div class="code-block" data-lang="javascript">
+module.exports = {
+  pgUser: process.env.PGUSER,
+  pgHost: process.env.PGHOST,
+  pgDatabase: process.env.PGDATABASE,
+  pgPassword: process.env.PGPASSWORD,
+  pgPort: process.env.PGPORT
+};
+</div><p id="-q8l2nj_163">This file securely references environment variables for your PostgreSQL connection.</p></section></section><section class="chapter"><h3 id="step-5-create-docker-configuration" data-toc="step-5-create-docker-configuration">Step 5: Create Docker Configuration</h3><section class="chapter"><h4 id="1-create-dockerfile-dev" data-toc="1-create-dockerfile-dev">1. <span class="control" id="-q8l2nj_172">Create <code class="code" id="-q8l2nj_173">Dockerfile.dev</code></span></h4><p id="-q8l2nj_170">Create a file named <code class="code" id="-q8l2nj_174">Dockerfile.dev</code> in the root directory with the following content:</p><div class="code-block" data-lang="none">
+# Use Alpine Node.js runtime as a parent image
+FROM node:20.16.0-alpine
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy package.json and pnpm-lock.yaml (or package-lock.json)
+COPY package*.json pnpm-lock.yaml ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code
+COPY . .
+
+# Expose port 8000
+EXPOSE 8000
+
+# Command to run the application
+CMD [&quot;npm&quot;, &quot;run&quot;, &quot;dev&quot;]
+</div></section><section class="chapter"><h4 id="2-create-dockerignore" data-toc="2-create-dockerignore">2. <span class="control" id="-q8l2nj_178">Create <code class="code" id="-q8l2nj_179">.dockerignore</code></span></h4><p id="-q8l2nj_176">Create a <code class="code" id="-q8l2nj_180">.dockerignore</code> file to ensure unnecessary files aren't copied into the Docker image:</p><div class="code-block" data-lang="none">
+node_modules
+build
+.git
+.gitignore
+Dockerfile
+Dockerfile.dev
+.dockerignore
+*.log
+.DS_Store
+.git
+</div></section></section><section class="chapter"><h3 id="step-6-define-the-npm-scripts" data-toc="step-6-define-the-npm-scripts">Step 6: Define the NPM Scripts</h3><p id="-q8l2nj_181">Open your <code class="code" id="-q8l2nj_187">package.json</code> and add a script for running the development server:</p><div class="code-block" data-lang="json">
+{
+  &quot;scripts&quot;: {
+    &quot;start&quot;: &quot;node index.js&quot;,  
+    &quot;dev&quot;: &quot;nodemon index.js&quot;   
+  }     
+}
+</div><p id="-q8l2nj_183">Ensure you have nodemon installed globally or as a dev dependency:</p><div class="code-block" data-lang="bash">
+npm install -g nodemon
+</div><p id="-q8l2nj_185">Or:</p><div class="code-block" data-lang="bash">
+npm install --save-dev nodemon
+</div></section><section class="chapter"><h3 id="step-7-running-the-application-with-docker" data-toc="step-7-running-the-application-with-docker">Step 7: Running the Application with Docker</h3><section class="chapter"><h4 id="1-build-the-docker-image" data-toc="1-build-the-docker-image">1. <span class="control" id="-q8l2nj_193">Build the Docker Image</span></h4><p id="-q8l2nj_191">Run the following command to build the Docker image using the development Dockerfile:</p><div class="code-block" data-lang="bash">
+docker build -t server -f Dockerfile.dev .
+</div></section><section class="chapter"><h4 id="2-run-the-docker-container" data-toc="2-run-the-docker-container">2. <span class="control" id="-q8l2nj_199">Run the Docker Container</span></h4><p id="-q8l2nj_195">Run the Docker container:</p><div class="code-block" data-lang="bash">
+docker run -it --rm -p 8000:8000 server
+</div><p id="-q8l2nj_197">Explanation:</p><ul class="list _bullet" id="-q8l2nj_198"><li class="list__item" id="-q8l2nj_200"><p><code class="code" id="-q8l2nj_201">-p 8000:8000</code>: Maps port 8000 on your machine to port 8000 in the container.</p></li></ul></section></section><section class="chapter"><h3 id="step-8-test-the-application" data-toc="step-8-test-the-application">Step 8: Test the Application</h3><p id="-q8l2nj_202">Open your browser or use a tool like Postman to test the endpoints:</p><ul class="list _bullet" id="-q8l2nj_203"><li class="list__item" id="-q8l2nj_204"><p><span class="control" id="-q8l2nj_205">GET</span> request to <code class="code" id="-q8l2nj_206">http://localhost:8000/</code> should return &quot;Hi&quot;.</p></li></ul></section></section><section class="chapter"><h2 id="nginx-file-structure" data-toc="nginx-file-structure">NGINX &amp; File structure</h2><p id="-q8l2nj_207">Nginx as a reverse proxy to route traffic between a React frontend (client) and an Express backend (API), using Docker. The configuration involves two files: default.conf (Nginx configuration) and Dockerfile.dev (Docker configuration for Nginx).</p><ul class="list _bullet" id="-q8l2nj_208"><li class="list__item" id="-q8l2nj_216"><p>Step 1: The structure looks like this:</p></li></ul><div class="code-block" data-lang="bash">
+nginx/
+├── default.conf          # Nginx configuration file
+└── Dockerfile.dev        # Dockerfile for building the Nginx image 
+</div><ul class="list _bullet" id="-q8l2nj_210"><li class="list__item" id="-q8l2nj_217"><p>Step 2: Configure default.conf for Nginx The default.conf file is an Nginx configuration file that routes traffic based on the request paths. Here&rsquo;s what the configuration does:</p></li></ul><div class="code-block" data-lang="javascript">
+upstream client {
+    server client:5173;
+}
+
+upstream api {
+    server api:8000;
+}
+
+server {
+    listen 80;
+
+    location / {
+        proxy_pass http://client;
+    }
+
+    location /sockjs-node {
+        proxy_pass http://client;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &quot;Upgrade&quot;;
+    }
+
+    location /api {
+        rewrite /api/(.*) /$1 break;
+        proxy_pass http://api;
+    }
+}
+</div><p id="-q8l2nj_212">Explanation:</p><ul class="list _bullet" id="-q8l2nj_213"><li class="list__item" id="-q8l2nj_218"><p id="-q8l2nj_221">Upstream Sections:</p><ul class="list _bullet" id="-q8l2nj_222"><li class="list__item" id="-q8l2nj_223"><p>upstream client: Defines a group of servers for the React frontend running on port 5173.</p></li><li class="list__item" id="-q8l2nj_224"><p>upstream api: Defines a group of servers for the Express backend running on port 8000.</p></li></ul></li><li class="list__item" id="-q8l2nj_219"><p id="-q8l2nj_225">Server Block:</p><ul class="list _bullet" id="-q8l2nj_226"><li class="list__item" id="-q8l2nj_227"><p>listen 80: Configures Nginx to listen on port 80 (standard HTTP port).</p></li><li class="list__item" id="-q8l2nj_228"><p>location /: Routes root URL requests to the React client.</p></li><li class="list__item" id="-q8l2nj_229"><p>location /sockjs-node: Special handling for WebSocket connections, typically used for hot-reloading in development.</p></li><li class="list__item" id="-q8l2nj_230"><p>location /api: Routes /api requests to the Express backend, rewriting the URL to strip the /api prefix.</p></li></ul></li><li class="list__item" id="-q8l2nj_220"><p id="-q8l2nj_231">Step 3: Create the Dockerfile.dev for Nginx The Dockerfile.dev will build a Docker image for Nginx that uses your custom configuration. The Dockerfile content is:</p></li></ul><div class="code-block" data-lang="dockerfile">
+FROM nginx
+COPY ./default.conf /etc/nginx/conf.d/default.conf
+</div><section class="chapter"><h3 id="step-by-step-guide-for-configuring-nginx-with-docker" data-toc="step-by-step-guide-for-configuring-nginx-with-docker">Step-by-Step Guide for Configuring Nginx with Docker</h3><p id="-q8l2nj_232">This guide walks you through setting up Nginx as a reverse proxy to route traffic between a React frontend (client) and an Express backend (API), using Docker. The configuration involves two files: <code class="code" id="-q8l2nj_236">default.conf</code> (Nginx configuration) and <code class="code" id="-q8l2nj_237">Dockerfile.dev</code> (Docker configuration for Nginx).</p><section class="chapter"><h4 id="step-1-understand-the-project-structure" data-toc="step-1-understand-the-project-structure">Step 1: Understand the Project Structure</h4><p id="-q8l2nj_238">From the provided image, the structure looks like this:</p><div class="code-block" data-lang="none">
+nginx/
+├── default.conf          # Nginx configuration file
+└── Dockerfile.dev        # Dockerfile for building the Nginx image
+</div></section><section class="chapter"><h4 id="step-2-configure-default-conf-for-nginx" data-toc="step-2-configure-default-conf-for-nginx">Step 2: Configure <code class="code" id="-q8l2nj_245">default.conf</code> for Nginx</h4><p id="-q8l2nj_241">The <code class="code" id="-q8l2nj_246">default.conf</code> file is an Nginx configuration file that routes traffic based on the request paths. Here&rsquo;s what the configuration does:</p><div class="code-block" data-lang="nginx">
+upstream client {
+    server client:5173;
+}
+
+upstream api {
+    server api:8000;
+}
+
+server {
+    listen 80;
+
+    location / {
+        proxy_pass http://client;
+    }
+
+    location /sockjs-node {
+        proxy_pass http://client;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &quot;Upgrade&quot;;
+    }
+
+    location /api {
+        rewrite /api/(.*) /$1 break;
+        proxy_pass http://api;
+    }
+}
+</div><p id="-q8l2nj_243"><span class="control" id="-q8l2nj_247">Explanation:</span></p><ul class="list _bullet" id="-q8l2nj_244"><li class="list__item" id="-q8l2nj_248"><p id="-q8l2nj_250"><span class="control" id="-q8l2nj_252">Upstream Sections</span>:</p><ul class="list _bullet" id="-q8l2nj_251"><li class="list__item" id="-q8l2nj_253"><p><code class="code" id="-q8l2nj_255">upstream client</code>: Defines a group of servers for the React frontend running on port 5173.</p></li><li class="list__item" id="-q8l2nj_254"><p><code class="code" id="-q8l2nj_256">upstream api</code>: Defines a group of servers for the Express backend running on port 8000.</p></li></ul></li><li class="list__item" id="-q8l2nj_249"><p id="-q8l2nj_257"><span class="control" id="-q8l2nj_259">Server Block</span>:</p><ul class="list _bullet" id="-q8l2nj_258"><li class="list__item" id="-q8l2nj_260"><p><span class="control" id="-q8l2nj_264">listen 80</span>: Configures Nginx to listen on port 80 (standard HTTP port).</p></li><li class="list__item" id="-q8l2nj_261"><p><span class="control" id="-q8l2nj_265">location /</span>: Routes root URL requests to the React client.</p></li><li class="list__item" id="-q8l2nj_262"><p><span class="control" id="-q8l2nj_266">location /sockjs-node</span>: Special handling for WebSocket connections, typically used for hot-reloading in development.</p></li><li class="list__item" id="-q8l2nj_263"><p><span class="control" id="-q8l2nj_267">location /api</span>: Routes <code class="code" id="-q8l2nj_268">/api</code> requests to the Express backend, rewriting the URL to strip the <code class="code" id="-q8l2nj_269">/api</code> prefix.</p></li></ul></li></ul></section><section class="chapter"><h4 id="step-3-create-the-dockerfile-dev-for-nginx" data-toc="step-3-create-the-dockerfile-dev-for-nginx">Step 3: Create the <code class="code" id="-q8l2nj_275">Dockerfile.dev</code> for Nginx</h4><p id="-q8l2nj_271">The <code class="code" id="-q8l2nj_276">Dockerfile.dev</code> will build a Docker image for Nginx that uses your custom configuration. The Dockerfile content is:</p><div class="code-block" data-lang="none">
+FROM nginx
+COPY ./default.conf /etc/nginx/conf.d/default.conf
+</div><p id="-q8l2nj_273"><span class="control" id="-q8l2nj_277">Explanation:</span></p><ul class="list _bullet" id="-q8l2nj_274"><li class="list__item" id="-q8l2nj_278"><p><span class="control" id="-q8l2nj_280">FROM nginx</span>: This uses the official Nginx image as the base image.</p></li><li class="list__item" id="-q8l2nj_279"><p><span class="control" id="-q8l2nj_281">COPY ./default.conf /etc/nginx/conf.d/default.conf</span>: Copies your custom Nginx configuration file (<code class="code" id="-q8l2nj_282">default.conf</code>) into the appropriate directory inside the Nginx container (<code class="code" id="-q8l2nj_283">/etc/nginx/conf.d/default.conf</code>), replacing the default configuration.</p></li></ul></section></section></section><section class="chapter"><h2 id="combined-project-structure-with-docker-compose" data-toc="combined-project-structure-with-docker-compose">Combined Project Structure with Docker Compose</h2><p id="-q8l2nj_284">Here's how to combine your <code class="code" id="-q8l2nj_289">client</code>, <code class="code" id="-q8l2nj_290">server</code>, and <code class="code" id="-q8l2nj_291">nginx</code> components into a single project structure with a <code class="code" id="-q8l2nj_292">docker-compose.yml</code> file that orchestrates the services. This structure is typical for a full-stack application setup using Docker Compose.</p><section class="chapter"><h3 id="project-structure" data-toc="project-structure">Project Structure</h3><div class="code-block" data-lang="none">
+my-app/
+├── client/                   # React frontend
+│   ├── Dockerfile.dev        # Dockerfile for the React app (development)
+│   ├── src/                  # Source code for React
+│   ├── public/               # Public assets for React
+│   ├── package.json          # Package configuration for React
+│   └── ...                   # Other React files and folders
+├── server/                   # Express backend
+│   ├── Dockerfile.dev        # Dockerfile for the Express app (development)
+│   ├── index.js              # Main entry point for the Express server
+│   ├── keys.js               # Environment configuration file
+│   ├── package.json          # Package configuration for Express
+│   └── ...                   # Other server files and folders
+├── nginx/                    # Nginx reverse proxy
+│   ├── default.conf          # Nginx configuration file
+│   └── Dockerfile.dev        # Dockerfile for Nginx (development)
+└── docker-compose.yml        # Docker Compose configuration file
+</div></section><section class="chapter"><h3 id="docker-compose-yml" data-toc="docker-compose-yml"><code class="code" id="-q8l2nj_297">docker-compose.yml</code></h3><p id="-q8l2nj_295">Below is the <code class="code" id="-q8l2nj_298">docker-compose.yml</code> file that defines all the services:</p><div class="code-block" data-lang="yaml">
+version: &quot;3.8&quot;
+services:
+  postgres:
+    image: &quot;postgres:latest&quot;
+    environment:
+      - POSTGRES_PASSWORD=postgres_password
+    ports:
+      - &quot;5432:5432&quot;
+    restart: always
+
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev  # Change to `Dockerfile` for production
+    ports:
+      - &quot;3500:80&quot;
+    depends_on:
+      - api
+      - client
+    restart: always    
+
+  api:
+    build:
+      context: &quot;./server&quot;
+      dockerfile: Dockerfile.dev # Change to `Dockerfile` for production
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+    environment:
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGPASSWORD=postgres_password
+      - PGPORT=5432
+    depends_on:
+      - postgres
+    ports:
+      - &quot;8000:8000&quot;
+    restart: always
+
+  client:
+    stdin_open: true
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev # Change to `Dockerfile` for production
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    ports:
+      - &quot;5173:5173&quot;
+    depends_on:
+      - api
+    restart: always
+</div></section><section class="chapter"><h3 id="explanation-of-the-docker-compose-yml-services" data-toc="explanation-of-the-docker-compose-yml-services">Explanation of the <code class="code" id="-q8l2nj_301">docker-compose.yml</code> Services</h3><ol class="list _decimal" id="-q8l2nj_300" type="1"><li class="list__item" id="-q8l2nj_302"><p id="-q8l2nj_306"><span class="control" id="-q8l2nj_308">Postgres</span>:</p><ul class="list _bullet" id="-q8l2nj_307"><li class="list__item" id="-q8l2nj_309"><p>This service runs the PostgreSQL database.</p></li><li class="list__item" id="-q8l2nj_310"><p><code class="code" id="-q8l2nj_313">environment</code>: Sets the environment variable <code class="code" id="-q8l2nj_314">POSTGRES_PASSWORD</code> to <code class="code" id="-q8l2nj_315">postgres_password</code> for the database.</p></li><li class="list__item" id="-q8l2nj_311"><p><code class="code" id="-q8l2nj_316">ports</code>: Exposes port <code class="code" id="-q8l2nj_317">5432</code> for database connections.</p></li><li class="list__item" id="-q8l2nj_312"><p><code class="code" id="-q8l2nj_318">restart: always</code>: Ensures the container restarts automatically in case of a failure.</p></li></ul></li><li class="list__item" id="-q8l2nj_303"><p id="-q8l2nj_319"><span class="control" id="-q8l2nj_321">Nginx</span>:</p><ul class="list _bullet" id="-q8l2nj_320"><li class="list__item" id="-q8l2nj_322"><p>Acts as a reverse proxy, routing requests to the <code class="code" id="-q8l2nj_326">client</code> (React frontend) and <code class="code" id="-q8l2nj_327">api</code> (Express backend) services.</p></li><li class="list__item" id="-q8l2nj_323"><p><code class="code" id="-q8l2nj_328">build</code>: Builds the Nginx image from the <code class="code" id="-q8l2nj_329">Dockerfile.dev</code> located in the <code class="code" id="-q8l2nj_330">nginx</code> directory.</p></li><li class="list__item" id="-q8l2nj_324"><p><code class="code" id="-q8l2nj_331">ports</code>: Exposes port <code class="code" id="-q8l2nj_332">3500</code> on the host, mapping it to port <code class="code" id="-q8l2nj_333">80</code> inside the container (where Nginx listens).</p></li><li class="list__item" id="-q8l2nj_325"><p><code class="code" id="-q8l2nj_334">depends_on</code>: Ensures that the <code class="code" id="-q8l2nj_335">api</code> and <code class="code" id="-q8l2nj_336">client</code> services are started before Nginx.</p></li></ul></li><li class="list__item" id="-q8l2nj_304"><p id="-q8l2nj_337"><span class="control" id="-q8l2nj_339">API (Express)</span>:</p><ul class="list _bullet" id="-q8l2nj_338"><li class="list__item" id="-q8l2nj_340"><p>Runs the Express server.</p></li><li class="list__item" id="-q8l2nj_341"><p><code class="code" id="-q8l2nj_346">build</code>: Builds the Express image from the <code class="code" id="-q8l2nj_347">Dockerfile.dev</code> located in the <code class="code" id="-q8l2nj_348">server</code> directory.</p></li><li class="list__item" id="-q8l2nj_342"><p><code class="code" id="-q8l2nj_349">volumes</code>: Mounts the <code class="code" id="-q8l2nj_350">server</code> directory and <code class="code" id="-q8l2nj_351">node_modules</code> for hot-reloading in development.</p></li><li class="list__item" id="-q8l2nj_343"><p><code class="code" id="-q8l2nj_352">environment</code>: Passes PostgreSQL connection environment variables to the Express server.</p></li><li class="list__item" id="-q8l2nj_344"><p><code class="code" id="-q8l2nj_353">depends_on</code>: Ensures that the PostgreSQL service is up and running before the API service starts.</p></li><li class="list__item" id="-q8l2nj_345"><p><code class="code" id="-q8l2nj_354">ports</code>: Exposes port <code class="code" id="-q8l2nj_355">8000</code> for the Express API.</p></li></ul></li><li class="list__item" id="-q8l2nj_305"><p id="-q8l2nj_356"><span class="control" id="-q8l2nj_358">Client (React)</span>:</p><ul class="list _bullet" id="-q8l2nj_357"><li class="list__item" id="-q8l2nj_359"><p>Runs the React frontend.</p></li><li class="list__item" id="-q8l2nj_360"><p><code class="code" id="-q8l2nj_364">build</code>: Builds the React image from the <code class="code" id="-q8l2nj_365">Dockerfile.dev</code> located in the <code class="code" id="-q8l2nj_366">client</code> directory.</p></li><li class="list__item" id="-q8l2nj_361"><p><code class="code" id="-q8l2nj_367">volumes</code>: Mounts the <code class="code" id="-q8l2nj_368">client</code> directory and <code class="code" id="-q8l2nj_369">node_modules</code> for hot-reloading in development.</p></li><li class="list__item" id="-q8l2nj_362"><p><code class="code" id="-q8l2nj_370">ports</code>: Exposes port <code class="code" id="-q8l2nj_371">5173</code> for the React development server.</p></li><li class="list__item" id="-q8l2nj_363"><p><code class="code" id="-q8l2nj_372">depends_on</code>: Ensures the API service is running before the Client starts.</p></li></ul></li></ol></section><section class="chapter"><h3 id="step-by-step-setup-and-execution" data-toc="step-by-step-setup-and-execution">Step-by-Step Setup and Execution</h3><ol class="list _decimal" id="-q8l2nj_373" type="1"><li class="list__item" id="-q8l2nj_375"><p id="-q8l2nj_377"><span class="control" id="-q8l2nj_379">Build and Start Services</span>:</p><ul class="list _bullet" id="-q8l2nj_378"><li class="list__item" id="-q8l2nj_380"><p id="-q8l2nj_382">Navigate to the root directory (<code class="code" id="-q8l2nj_384">my-app/</code>) and run the following command to build and start all services:</p><div class="code-block" data-lang="bash">
+docker-compose up --build
+</div></li><li class="list__item" id="-q8l2nj_381"><p id="-q8l2nj_385">The <code class="code" id="-q8l2nj_386">--build</code> flag ensures that Docker builds the images before starting the containers.</p></li></ul></li><li class="list__item" id="-q8l2nj_376"><p id="-q8l2nj_387"><span class="control" id="-q8l2nj_389">Access the Application</span>:</p><ul class="list _bullet" id="-q8l2nj_388"><li class="list__item" id="-q8l2nj_390"><p>Visit <code class="code" id="-q8l2nj_392">http://localhost:3500</code> in your browser to access the frontend, which is proxied through Nginx.</p></li><li class="list__item" id="-q8l2nj_391"><p>The React frontend interacts with the Express backend via the <code class="code" id="-q8l2nj_393">/api</code> route, as defined in the Nginx configuration.</p></li></ul></li></ol><figure id="-q8l2nj_374"><img alt="devwebpreview.png" src="images/devwebpreview.png" title="devwebpreview.png" width="1795" height="451"></figure></section></section><section class="chapter"><h2 id="production-mode" data-toc="production-mode">Production Mode</h2><p id="-q8l2nj_394">We are going to use all files in the development mode but make a couple of changes.ie our docker files will be <code class="code" id="-q8l2nj_403">Docker</code> instead of <code class="code" id="-q8l2nj_404">Docker.dev</code></p><figure id="-q8l2nj_395"><img alt="prod.png" src="images/prod.png" title="prod.png" width="1271" height="592"></figure><ul class="list _bullet" id="-q8l2nj_396"><li class="list__item" id="-q8l2nj_405"><p>Create Nginx folder in client folder and add <code class="code" id="-q8l2nj_406">default.conf</code> with this code</p></li></ul><div class="code-block" data-lang="javascript">
+server {
+    listen 5173;
+
+    location / {
+        root /usr/share/nginx/html;
+        index index.html index.html;
+        try_files $uri/ $uri/ /index.html
+    }
+}
+</div><ul class="list _bullet" id="-q8l2nj_398"><li class="list__item" id="-q8l2nj_407"><p>inside the client folder, add a <code class="code" id="-q8l2nj_408">Docker</code> file</p></li></ul><div class="code-block" data-lang="none">
+  #use alpine Node.js runtime as a parent image and name it as builder
+FROM node:20.16.0-alpine as builder
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm i
+
+# Copy the rest of the application code
+COPY . .
+
+RUN npm run build
+
+FROM nginx
+
+# Expose port 5173
+EXPOSE 5173
+# copy nginx configuration to the docker image
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+# copy all builded files
+COPY --from=builder /app/build /usr/share/nginx/html
+</div><p id="-q8l2nj_400">Summary in bullet points:</p><ul class="list _bullet" id="-q8l2nj_401"><li class="list__item" id="-q8l2nj_409"><p id="-q8l2nj_413"><span class="control" id="-q8l2nj_415">Base Image (Builder Stage)</span>:</p><ul class="list _bullet" id="-q8l2nj_414"><li class="list__item" id="-q8l2nj_416"><p>Uses <code class="code" id="-q8l2nj_418">node:20.16.0-alpine</code> as the base image, named as <code class="code" id="-q8l2nj_419">builder</code>.</p></li><li class="list__item" id="-q8l2nj_417"><p>Sets the working directory to <code class="code" id="-q8l2nj_420">/app</code> inside the container.</p></li></ul></li><li class="list__item" id="-q8l2nj_410"><p id="-q8l2nj_421"><span class="control" id="-q8l2nj_423">Dependency Installation</span>:</p><ul class="list _bullet" id="-q8l2nj_422"><li class="list__item" id="-q8l2nj_424"><p>Copies <code class="code" id="-q8l2nj_426">package.json</code> and <code class="code" id="-q8l2nj_427">package-lock.json</code> into the container.</p></li><li class="list__item" id="-q8l2nj_425"><p>Installs Node.js dependencies using <code class="code" id="-q8l2nj_428">npm i</code>.</p></li></ul></li><li class="list__item" id="-q8l2nj_411"><p id="-q8l2nj_429"><span class="control" id="-q8l2nj_431">Application Code</span>:</p><ul class="list _bullet" id="-q8l2nj_430"><li class="list__item" id="-q8l2nj_432"><p>Copies the entire application code into the container.</p></li><li class="list__item" id="-q8l2nj_433"><p>Runs the build process with <code class="code" id="-q8l2nj_434">npm run build</code>.</p></li></ul></li><li class="list__item" id="-q8l2nj_412"><p id="-q8l2nj_435"><span class="control" id="-q8l2nj_437">Final Image (Nginx Stage)</span>:</p><ul class="list _bullet" id="-q8l2nj_436"><li class="list__item" id="-q8l2nj_438"><p>Uses <code class="code" id="-q8l2nj_442">nginx</code> as the final base image.</p></li><li class="list__item" id="-q8l2nj_439"><p>Exposes port <code class="code" id="-q8l2nj_443">5173</code> for the frontend.</p></li><li class="list__item" id="-q8l2nj_440"><p>Copies the Nginx configuration file (<code class="code" id="-q8l2nj_444">default.conf</code>) to the appropriate location in the Nginx container.</p></li><li class="list__item" id="-q8l2nj_441"><p>Copies the built files from the <code class="code" id="-q8l2nj_445">builder</code> stage to the Nginx web root directory (<code class="code" id="-q8l2nj_446">/usr/share/nginx/html</code>).</p></li></ul></li></ul><section class="chapter"><h3 id="build-the-docker-image" data-toc="build-the-docker-image"><span class="control" id="-q8l2nj_450">Build the Docker Image</span></h3><ul class="list _bullet" id="-q8l2nj_448"><li class="list__item" id="-q8l2nj_451"><p>cd to client folder, and run</p></li></ul><div class="code-block" data-lang="bash">
+docker build -t client-prod .
+</div></section></section><div class="last-modified">Last modified: 12 August 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="modern-context-menus-in-windows-11.html" class="navigation-links__prev">Restore the old Context Menu in Windows 11</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.10.0-b408/app.js"></script></body></html>
