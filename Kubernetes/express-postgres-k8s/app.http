@@ -1,0 +1,24 @@
+### Create a new To-Do
+POST http://localhost:3000/todos
+Content-Type: application/json
+
+{
+  "title": "Buy groceries"
+}
+
+### Get all To-Dos
+GET http://localhost:3000/todos
+
+### Get a single To-Do by ID
+GET http://localhost:3000/todos/1
+
+### Update a To-Do (mark as completed)
+PUT http://localhost:3000/todos/1
+Content-Type: application/json
+
+{
+  "completed": true
+}
+
+### Delete a To-Do
+DELETE http://localhost:3000/todos/1

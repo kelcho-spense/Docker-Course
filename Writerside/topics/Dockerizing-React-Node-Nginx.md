@@ -1089,3 +1089,36 @@ To stop the services that are running:
 docker-compose down
 ```
 This will stop and remove all the containers, networks, and volumes created by `docker-compose up`.
+
+## Pushing local Docker images to DockerHub Repositories
+- sign in to https://hub.docker.com/ and create a repository called `react-app-prod`, `express-app-prod` and `ngnix-prod`
+- Go back to your project and cd into the root of `client`
+- Log in to the Docker registry:
+```Docker
+docker login
+```
+- Enter your username and password when prompted. If you are using Docker Hub, these would be your Docker Hub credentials. For private registries, use the appropriate credentials.
+
+### Client(React-app)
+- 
+- To push an image use
+```Docker
+docker push my-dockerhub-username/my-repo:tag
+```
+- For this example I'll build the client image with `my-dockerhub-username/my-repo:tag`
+```Docker
+docker build -t kelchospense/react-app-prod:v1 .
+```
+- Then push
+```Docker
+docker push kelchospense/react-app-prod:v1
+```
+### Server(Express-app)
+- To build server go to the `./server` dir
+```Docker
+docker build -t kelchospense/express-app-prod:v1 .
+```
+- Then push
+```Docker
+docker push kelchospense/express-app-prod:v1
+```

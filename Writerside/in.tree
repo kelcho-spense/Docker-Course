@@ -11,4 +11,7 @@
     <toc-element topic="Dockerizing MSSQL.md"/>
     <toc-element topic="Dockerizing-React-Node-Nginx.md"/>
     <toc-element topic="Modern-Context-menus-in-Windows-11.md"/>
+    <toc-element topic="Kubernetes Multi Container Deployment.md"/>
+    <toc-element topic="Kubernetes-101.md"/>
+    <toc-element topic="Kubernetes Cheat Sheet.md"/>
 </instance-profile>
