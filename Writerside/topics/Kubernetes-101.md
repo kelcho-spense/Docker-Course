@@ -228,7 +228,7 @@ Let's create a simple example where we deploy a Node.js application on Kubernete
 
 1. **Create a Dockerfile**:
 
-   ```Dockerfile
+   ```Docker
    FROM node:14
 
    WORKDIR /app

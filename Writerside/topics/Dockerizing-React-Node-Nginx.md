@@ -238,7 +238,7 @@ export default OtherPage;
 ### 4. Configuration Files
 
 - #### `.dockerignore`
-```plaintext
+```Docker
 node_modules
 build
 .git
@@ -252,7 +252,7 @@ Dockerfile.dev
 ```
 
 - #### `.gitignore`
-```plaintext
+```Docker
 # Logs
 logs
 *.log
@@ -453,7 +453,7 @@ This file securely references environment variables for your PostgreSQL connecti
 
 Create a file named `Dockerfile.dev` in the root directory with the following content:
 
-```dockerfile
+```Docker
 # Use Alpine Node.js runtime as a parent image
 FROM node:20.16.0-alpine
 
@@ -480,7 +480,7 @@ CMD ["npm", "run", "dev"]
 
 Create a `.dockerignore` file to ensure unnecessary files aren't copied into the Docker image:
 
-```plaintext
+```Docker
 node_modules
 build
 .git
@@ -664,7 +664,7 @@ server {
 
 The `Dockerfile.dev` will build a Docker image for Nginx that uses your custom configuration. The Dockerfile content is:
 
-```dockerfile
+```Docker
 FROM nginx
 COPY ./default.conf /etc/nginx/conf.d/default.conf
 ```
