@@ -1,6 +1,7 @@
 const mysql = require('mysql2/promise');
 
 async function main() {
+  //credetials
   const connection = await mysql.createConnection({
     host: 'localhost',
     user: 'admin',
